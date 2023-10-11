@@ -19,3 +19,16 @@ export const defaultError: {[key: string]: string | null} = {
 };
 
 export const animatedComponents = makeAnimated();
+
+export const tempValidCodes = [
+  '123456789',
+  '234567890',
+  '345678901',
+  '456789012',
+  '567890123',
+  '678901234',
+  '789012345',
+  '890123456',
+  '901234567',
+  '012345678',
+]

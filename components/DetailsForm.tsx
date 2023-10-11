@@ -38,16 +38,18 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
   const [formError, setFormError] = useState(defaultError);
   const [isComplete, setIsComplete] = useState(false);
 
-  const wishOptions = useMemo(() => (
-    wishList.map((wish) => ({
-      value: wish.id,
-      label: <WishSection description={wish.description} img={wish.img} />
-    }))
-  ), [wishList]);
-  const defaultWish = useMemo(() => {
-    const currWish = wishOptions.find(wish => wish.value === wish_id);
-    return currWish ?? wishOptions[0];
-  }, [wishOptions, wish_id]);
+  const wish = useMemo(() => wishList.find(item => item.id === wish_id), [wishList, wish_id]);
+
+  // const wishOptions = useMemo(() => (
+  //   wishList.map((wish) => ({
+  //     value: wish.id,
+  //     label: <WishSection description={wish.description} img={wish.img} />
+  //   }))
+  // ), [wishList]);
+  // const defaultWish = useMemo(() => {
+  //   const currWish = wishOptions.find(wish => wish.value === wish_id);
+  //   return currWish ?? wishOptions[0];
+  // }, [wishOptions, wish_id]);
 
   const countryOptions: Options<ICountryOption> = [
     { value: 'South Africa', label: <CountryFlag code='za' /> },
@@ -63,15 +65,15 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
 
   const submitHandler = async (e: MouseEvent) => {
     e.preventDefault();
-    const wish = wishList.find(item => item.id === formState.wish_option);
+    // const wish = wishList.find(item => item.id === formState.wish_option);
     const payload = {
-      firstname : formState.first_name,
-      lastname : formState.last_name,
-      phone : formState.phone_number,
-      country : formState.country,
-      passport : formState.valid_passport,
-      wish : wish.description,
-      code : "123456789"
+      firstname: formState.first_name,
+      lastname: formState.last_name,
+      phone: formState.phone_number,
+      country: formState.country,
+      passport: formState.valid_passport,
+      wish: wish.description,
+      code: "123456789"
     }
     const response = await axios.post(`${apiUrl}/verify/addUser`, payload);
     if (response.status === 200) {
@@ -87,8 +89,8 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
   }, [formState]);
 
   return (
-    <div className='flex flex-col'>
-      <div className='mt-6'>
+    <div className='flex flex-col' style={{ height: 'calc(100vh - 4.5rem)', overflowY: 'scroll', scrollbarWidth: 'none'}}>
+      {/* <div className='mt-6'>
         <Select
           className=''
           closeMenuOnSelect={true}
@@ -99,11 +101,23 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
           placeholder={<div className='text-xl font-semibold'>Wish</div>} 
           onChange={(newValue: ICountryOption) => handleFormChange('wish_option', newValue.value)}
         />
-      </div>
+      </div> */}
+      {wish && (
+        <div className='flex items-center gap-2' style={{ backgroundColor: '#fff'}}>
+          <Image width={80} height={80} src={wish.img} alt={''} />
+          <div>
+            <p className='text-xs font-medium text-[#0A3085]'>Your What The Flying Wish is:</p>
+            <p style={{ width: 'calc(100% - 8px)', whiteSpace: 'normal'}} className='text-base italic font-semibold leading-tight text-[#0A3085]'>{wish.description}</p>
+          </div>
+        </div>
+      )}
 
       <h3 className='mt-8 mb-6 text-lg font-extrabold text-center text-yellow-300 uppercase'>Please enter your details</h3>
       <form>
-        <div style={{backgroundColor: '#ffffff22', paddingLeft: '8px'}} className={`flex flex-col items-center w-full h-10 mb-6 py-3 border ${formError.first_name ? 'border-[#F32525] bg-[#FFEAEA] text-[#F32525]' :  'border-[#0A3085] bg-transparent text-white'}`}>
+        <div 
+          style={{backgroundColor: '#ffffff22', paddingLeft: '8px', height: '3.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center'}} 
+          className={`w-full mb-6 border ${formError.first_name ? 'border-[#F32525] bg-[#FFEAEA] text-[#F32525]' :  'border-[#0A3085] bg-transparent text-white'}`}
+        >
           {formState.first_name.length > 0 && (
             <label className='w-full text-xs text-left'>First name</label>
           )}
@@ -119,7 +133,10 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
           )}
         </div>
 
-        <div style={{backgroundColor: '#ffffff22', paddingLeft: '8px'}} className={`flex flex-col items-center w-full h-10 mb-6 py-3 border ${formError.last_name ? 'border-[#F32525] bg-[#FFEAEA] text-[#F32525]' :  'border-[#0A3085] bg-transparent text-white'}`}>
+        <div 
+          style={{backgroundColor: '#ffffff22', paddingLeft: '8px', height: '3.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center'}} 
+          className={`w-full mb-6 border ${formError.last_name ? 'border-[#F32525] bg-[#FFEAEA] text-[#F32525]' :  'border-[#0A3085] bg-transparent text-white'}`}
+        >
           {formState.last_name.length > 0 && (
             <label className='w-full text-xs text-left'>Last name</label>
           )}
@@ -135,7 +152,10 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
           )}
         </div>
 
-        <div style={{backgroundColor: '#ffffff22', paddingLeft: '8px'}} className={`flex flex-col items-center w-full h-10 mb-6 py-3 border ${formError.phone_number ? 'border-[#F32525] bg-[#FFEAEA] text-[#F32525]' :  'border-[#0A3085] bg-transparent text-white'}`}>
+        <div 
+          style={{backgroundColor: '#ffffff22', paddingLeft: '8px', height: '3.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center'}} 
+          className={`w-full mb-6 border ${formError.phone_number ? 'border-[#F32525] bg-[#FFEAEA] text-[#F32525]' :  'border-[#0A3085] bg-transparent text-white'}`}
+        >
           {formState.phone_number.length > 0 && (
             <label className='w-full text-xs text-left'>Last name</label>
           )}
@@ -180,7 +200,7 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
           </RadioGroup>
         </div>
         
-        <button className={`py-3 mt-8 uppercase px-10 w-full text-2xl ${!isComplete ? 'text-[#1A191999] bg-[#636463]' : 'text-[#0A3085] bg-yellow-300'}`} onClick={submitHandler}>Submit my Flying Wish!</button>
+        <button className={`py-3 mt-8 uppercase px-10 w-full text-xl mb-4 ${!isComplete ? 'text-[#1A191999] bg-[#636463]' : 'text-[#0A3085] bg-yellow-300'}`} onClick={submitHandler}>Submit my Flying Wish!</button>
       </form>
     </div>
   )

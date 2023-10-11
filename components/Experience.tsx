@@ -1,13 +1,24 @@
 import { Fragment, useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
 export const Experience = () => {
+  const router = useRouter();
   const [launch, setLaunch] = useState(false);
   useEffect(() => {
     setTimeout(() => {
       setLaunch(true);
     }, 2000);
   }, []);
+
+  useEffect(() => {
+    if (launch) {
+      setTimeout(() => {
+        router.push('/wish')
+      }, 3000);
+    }
+  })
+
   return (
     <Fragment>
       {!launch && (
@@ -26,11 +37,11 @@ export const Experience = () => {
       )}
 
       {launch && (
-        <iframe 
+        <iframe
           src='https://beertechafrica.8thwall.app/flying-fish/'
-          allow='camera;gyroscope;accelerometer;magnetometer;xr-spatial-tracking;microphone;'
+          allow='camera'
           style={{ width: '100vw', height: '100vh'}}
-          onLoad={(e) => console.log("loaded successfully", e.currentTarget)}
+          onLoad={(e) => console.log('AR launch successfully')}
         />
       )}
     </Fragment>

@@ -9,11 +9,17 @@ const IndexPage = () => {
   const router = useRouter();
   const [withinLimit, setWithinLimit] = useState(false);
   const [belowLimit, setBelowLimit] = useState(false);
-  const handleSwitchChange = () => setWithinLimit(!withinLimit);
-  const handleBelowLimit = () => setBelowLimit(true);
+  const handleSwitchChange = () => {
+    setWithinLimit(!withinLimit);
+  }
+  const handleBelowLimit = () => {
+    localStorage.setItem('gate', '0');
+    setBelowLimit(true);
+  }
 
   useEffect(() => {
     if (withinLimit) {
+      localStorage.setItem('gate', '1');
       setTimeout(() => {
         router.push('/landing');
       }, 2000);
@@ -54,7 +60,7 @@ const IndexPage = () => {
             )}
           </div>
 
-          <div className='absolute bottom-0 w-full px-8 mb-12'>
+          <div className='absolute bottom-0 w-full px-8 mb-6'>
             <p className='text-center text-[#0A3085] text-xs leading-relaxed'>
               By continuing on this site, you agree to our <Link className='font-bold cursor-pointer' href='/terms'>Terms of Service</Link> and <Link className='font-bold cursor-pointer' href='/privacy'>Privacy Policy</Link>
             </p>

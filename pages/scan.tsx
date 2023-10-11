@@ -8,7 +8,6 @@ const ScanPage = () => {
   const [showReady, setShowReady] = useState(true)
   const handleBtnClick = () => {
     setShowReady(false);
-    console.log('launch AR experience');
     // setTimeout(() => {
     //   router.push('/reality');
     // }, 3000);

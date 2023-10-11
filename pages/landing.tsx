@@ -2,19 +2,35 @@ import { MouseEvent, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Layout } from '../components';
+import { tempValidCodes } from '../utils';
 
 const LandingPage = () => {
   const router = useRouter();
   const [promoCode, setPromoCode] = useState('');
   const [codeError, setCodeError] = useState<null | boolean>(null);
+  const [usedCode, setUsedCode] = useState<boolean>(null);
+  const [validCodes, setValidCodes] = useState(tempValidCodes);
 
   const handleCodeChange = (e: any) => {
-    if (codeError) setCodeError(null);
+    if (codeError) {
+      setUsedCode(false);
+      setCodeError(null);
+    }
     setPromoCode(e.target.value);
   }
   const handleSubmit = (e: MouseEvent) => {
     e.preventDefault();
-    console.log(promoCode);
+    const isValid = validCodes.includes(promoCode);
+    const isInList = tempValidCodes.includes(promoCode);
+    if (!isValid) {
+      setCodeError(true);
+      if (isInList) setUsedCode(true);
+      return;
+    }
+    const remainingCodes = [...validCodes];
+    remainingCodes.splice(validCodes.indexOf(promoCode), 1);
+    setValidCodes(remainingCodes);
+    localStorage.setItem('promo', promoCode);
     router.push('/scan');
   };
 
@@ -40,10 +56,10 @@ const LandingPage = () => {
               )}
             </div>
             <button 
-              className={`w-fit mx-auto px-12 uppercase py-3 ${promoCode.length === 9 ? 'bg-yellow-300 text-[#0A3085]' : 'bg-[#636463] text-[#1A191999]'}`}
+              className={`w-fit mx-auto px-12 uppercase py-3 ${(promoCode.length === 9 && !codeError)? 'bg-yellow-300 text-[#0A3085]' : 'bg-[#636463] text-[#1A191999]'}`}
               type='submit' 
               onClick={handleSubmit} 
-              disabled={promoCode.length !== 9}
+              disabled={promoCode.length !== 9 || codeError}
             >
                 verify
             </button>
