@@ -34,11 +34,25 @@ export const tempValidCodes = [
 ]
 
 export const tempGiftBucket = {
-  airtime: 'images/svg/gifts/airtime.svg',
-  cash: 'images/svg/gifts/cash.svg',
-  delivery: 'images/svg/gifts/delivery.svg',
-  drinks: 'images/svg/gifts/drinks.svg',
-  music: 'images/svg/gifts/music.svg',
-  shopping: 'images/svg/gifts/shopping.svg',
-  speaker: 'images/svg/gifts/speaker.svg',
+  airtime: '/images/svg/gifts/airtime.svg',
+  cash: '/images/svg/gifts/cash.svg',
+  delivery: '/images/svg/gifts/delivery.svg',
+  drinks: '/images/svg/gifts/drinks.svg',
+  music: '/images/svg/gifts/music.svg',
+  shopping: '/images/svg/gifts/shopping.svg',
+  speaker: '/images/svg/gifts/speaker.svg',
+}
+
+export const envWithGift = {
+  '1': { url: '/images/adventure-gift.mp4', duration: 20 },
+  '2': { url: '/images/beach-gift.mp4', duration: 20 },
+  '3': { url: '/images/adventure-gift.mp4', duration: 20 },
+  '4': { url: '/images/beach-gift.mp4', duration: 20 },
+}
+
+export const envWithOutGift = {
+  '1': { url: '/images/high-life-no-gift.mp4', duration: 11 },
+  '2': { url: '/images/high-life-no-gift.mp4', duration: 11 },
+  '3': { url: '/images/party-no-gift.mp4', duration: 11 },
+  '4': { url: '/images/party-no-gift.mp4', duration: 11 },
 }

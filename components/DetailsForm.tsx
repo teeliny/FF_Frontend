@@ -13,6 +13,7 @@ import {
 } from '../utils';
 import { Radio, RadioGroup } from 'react-radio-group';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 const CountryFlag = ({code}: {code: string}) => (
   <div className='flex items-center gap-2'>
@@ -21,17 +22,18 @@ const CountryFlag = ({code}: {code: string}) => (
   </div>
 )
 
-const WishSection = ({description, img} : {description: string, img: string}) => (
-  <div className='flex items-center gap-2'>
-    <Image width={64} height={64} src={img} alt={''} />
-    <div>
-      <p className='text-xs font-medium'>Your What The Flying Wish is:</p>
-      <p style={{ width: 'calc(100% - 8px)', whiteSpace: 'normal'}} className='text-base italic font-semibold leading-tight'>{description}</p>
-    </div>
-  </div>
-)
+// const WishSection = ({description, img} : {description: string, img: string}) => (
+//   <div className='flex items-center gap-2'>
+//     <Image width={64} height={64} src={img} alt={''} />
+//     <div>
+//       <p className='text-xs font-medium'>Your What The Flying Wish is:</p>
+//       <p style={{ width: 'calc(100% - 8px)', whiteSpace: 'normal'}} className='text-base italic font-semibold leading-tight'>{description}</p>
+//     </div>
+//   </div>
+// )
 
 export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
+  const router = useRouter();
   const modifiedState = wish_id ? {...defaultState, wish_option: wish_id } : defaultState;
   const apiUrl = process.env.NEXT_PUBLIC_API_URL as string;
   const [formState, setFormState] = useState(modifiedState);
@@ -80,6 +82,7 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
       gift: giftWon,
     }
     console.log(payload);
+    router.push('/stream');
     // const response = await axios.post(`${apiUrl}/verify/addUser`, payload);
     // if (response.status === 200) {
     //   console.log(response.data.isSuccess, 'form submitted successfully');
