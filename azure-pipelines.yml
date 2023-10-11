@@ -1,0 +1,65 @@
+trigger:
+- Dev
+- qa
+- production
+
+resources:
+- repo: self
+
+# parameters:
+#   - name: app
+#     type: string
+#     default: ""
+#   - name: docker_build_arguments
+#     type: object
+#     default: |
+#         --build-arg NEXT_PUBLIC_BASE_URL=$(NEXT_PUBLIC_BASE_URL)
+
+variables:
+  # Container registry service connection established during pipeline creation
+  dockerRegistryServiceConnection: 'FlyingFishAR'
+  imageRepository: 'flyinga-fish-ar'
+  containerRegistry: 'abitestingcontainer.azurecr.io'
+  dockerfilePath: '**/Dockerfile'
+  tag: '$(Build.BuildId)'
+
+  # Agent VM image name
+  vmImageName: 'ubuntu-latest'
+
+stages:
+- stage: Build
+  displayName: Build stage
+  jobs:
+  - job: Build
+    displayName: Build
+    # variables:
+    #   - group: "${{parameters.app}}"
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: Docker@2
+      displayName: AcR Login
+      inputs:
+        command: login
+        containerRegistry: $(dockerRegistryServiceConnection)
+    - task: Docker@2
+      displayName: "Docker Build"
+      inputs:
+        command: "build"
+        repository: $(imageRepository)
+        dockerfile: $(dockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+        # arguments: |
+        #   ${{parameters.docker_build_arguments}}
+        buildContext:  "**"
+        
+    - task: Docker@2
+      displayName: "Docker Push"
+      inputs:
+        command: "push"
+        repository: $(imageRepository)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
