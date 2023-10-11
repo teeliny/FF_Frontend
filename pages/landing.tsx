@@ -30,10 +30,10 @@ const LandingPage = () => {
     const remainingCodes = [...validCodes];
     remainingCodes.splice(validCodes.indexOf(promoCode), 1);
     setValidCodes(remainingCodes);
-    localStorage.setItem('validCodes', JSON.stringify(remainingCodes))
+    localStorage.setItem('validCodes', JSON.stringify(remainingCodes));
     const giftList = Object.keys(tempGiftBucket);
-    const randomIndex = Math.floor(Math.random() * giftList.length)
-    const gift = giftList[randomIndex];
+    const randomIndex = Math.floor(Math.random() * giftList.length + 3)
+    const gift = randomIndex < giftList.length ? giftList[randomIndex] : null;
     localStorage.setItem('promo', promoCode);
     if (gift) localStorage.setItem('gift', gift);
     router.push('/scan');
@@ -43,8 +43,7 @@ const LandingPage = () => {
     if (typeof window !== 'undefined') {
       const codes = localStorage.getItem('validCodes');
       if (!codes) localStorage.setItem('validCodes', JSON.stringify(tempValidCodes));
-      console.log({ codes }, JSON.stringify(tempValidCodes))
-      setValidCodes(JSON.parse(JSON.stringify(codes)).split(','));
+      setValidCodes(JSON.parse(codes));
     } else setValidCodes(tempValidCodes);
   }, []);
 
