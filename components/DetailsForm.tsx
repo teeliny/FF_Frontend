@@ -66,6 +66,8 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
   const submitHandler = async (e: MouseEvent) => {
     e.preventDefault();
     // const wish = wishList.find(item => item.id === formState.wish_option);
+    const promoCode = localStorage.getItem('promo') || '';
+    localStorage.setItem('wishId', wish.id);
     const payload = {
       firstname: formState.first_name,
       lastname: formState.last_name,
@@ -73,7 +75,7 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
       country: formState.country,
       passport: formState.valid_passport,
       wish: wish.description,
-      code: "123456789"
+      code: promoCode,
     }
     const response = await axios.post(`${apiUrl}/verify/addUser`, payload);
     if (response.status === 200) {

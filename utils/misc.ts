@@ -13,7 +13,8 @@ export const wishList = [
 ];
 
 export const gateCheck = (path: string, value: string | null): boolean => {
-  if (!value && path !== '/') return false;
-  if (!+value && path !== '/') return false;
+  const unAuthPaths = ['/', '/privacy', '/terms'];
+  if (!value && !unAuthPaths.includes(path)) return false;
+  if (!+value && !unAuthPaths.includes(path)) return false;
   return true;
 }

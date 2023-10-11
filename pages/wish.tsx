@@ -3,16 +3,6 @@ import Image from 'next/image';
 import { DetailsForm, Layout, Modal } from '../components';
 import { wishList } from '../utils';
 
-const WishSection = ({description, img} : {description: string, img: string}) => (
-  <div className='flex items-center gap-2'>
-    <Image width={64} height={64} src={img} alt={''} />
-    <div>
-      <p className='text-xs font-medium'>Your What The Flying Wish is:</p>
-      <p style={{ width: 'calc(100% - 8px)', whiteSpace: 'normal'}} className='text-base italic font-semibold leading-tight'>{description}</p>
-    </div>
-  </div>
-)
-
 export const WishSelection: FC = () => {
   const [wishId, setMyWishId] = useState<null | string>(null);
   const [submitWishModal, setSubmitWishModal] = useState(false);
@@ -24,7 +14,6 @@ export const WishSelection: FC = () => {
   const submitWishHandler = (e: MouseEvent) => {
     e.preventDefault();
     if (wishId) {
-      localStorage.setItem('wishId', wishId);
       setSubmitWishModal(true);
     }
   };
