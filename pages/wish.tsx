@@ -17,6 +17,7 @@ export const WishSelection: FC = () => {
       setSubmitWishModal(true);
     }
   };
+
   return (
     <Layout title="Marketing AR - Select your wish">
       <Fragment>

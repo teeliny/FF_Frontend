@@ -67,6 +67,7 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
     e.preventDefault();
     // const wish = wishList.find(item => item.id === formState.wish_option);
     const promoCode = localStorage.getItem('promo') || '';
+    const giftWon = localStorage.getItem('gift');
     localStorage.setItem('wishId', wish.id);
     const payload = {
       firstname: formState.first_name,
@@ -76,11 +77,13 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
       passport: formState.valid_passport,
       wish: wish.description,
       code: promoCode,
+      gift: giftWon,
     }
-    const response = await axios.post(`${apiUrl}/verify/addUser`, payload);
-    if (response.status === 200) {
-      console.log(response.data.isSuccess, 'form submitted successfully');
-    }
+    console.log(payload);
+    // const response = await axios.post(`${apiUrl}/verify/addUser`, payload);
+    // if (response.status === 200) {
+    //   console.log(response.data.isSuccess, 'form submitted successfully');
+    // }
   };
 
   // Track form completions to enable button

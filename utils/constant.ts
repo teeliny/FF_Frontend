@@ -32,3 +32,13 @@ export const tempValidCodes = [
   '901234567',
   '012345678',
 ]
+
+export const tempGiftBucket = {
+  airtime: 'images/svg/gifts/airtime.svg',
+  cash: 'images/svg/gifts/cash.svg',
+  delivery: 'images/svg/gifts/delivery.svg',
+  drinks: 'images/svg/gifts/drinks.svg',
+  music: 'images/svg/gifts/music.svg',
+  shopping: 'images/svg/gifts/shopping.svg',
+  speaker: 'images/svg/gifts/speaker.svg',
+}

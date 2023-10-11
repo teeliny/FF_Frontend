@@ -2,7 +2,7 @@ import { MouseEvent, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Layout } from '../components';
-import { tempValidCodes } from '../utils';
+import { tempGiftBucket, tempValidCodes } from '../utils';
 
 const LandingPage = () => {
   const router = useRouter();
@@ -30,7 +30,11 @@ const LandingPage = () => {
     const remainingCodes = [...validCodes];
     remainingCodes.splice(validCodes.indexOf(promoCode), 1);
     setValidCodes(remainingCodes);
+    const giftList = Object.keys(tempGiftBucket);
+    const randomIndex = Math.floor(Math.random() * giftList.length)
+    const gift = giftList[randomIndex];
     localStorage.setItem('promo', promoCode);
+    if (gift) localStorage.setItem('gift', gift);
     router.push('/scan');
   };
 
