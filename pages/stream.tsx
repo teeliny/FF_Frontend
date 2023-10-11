@@ -41,7 +41,7 @@ const Stream = () => {
               localStorage.removeItem('gift');
             }}
             // controls={currTime < 5}
-            controls
+            // controls
             autoPlay
             // muted
           >

@@ -1,4 +1,4 @@
-import { MouseEvent, useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Layout } from '../components';
@@ -9,7 +9,7 @@ const LandingPage = () => {
   const [promoCode, setPromoCode] = useState('');
   const [codeError, setCodeError] = useState<null | boolean>(null);
   const [usedCode, setUsedCode] = useState<boolean>(null);
-  const [validCodes, setValidCodes] = useState(tempValidCodes);
+  const [validCodes, setValidCodes] = useState([]);
 
   const handleCodeChange = (e: any) => {
     if (codeError) {
@@ -30,6 +30,7 @@ const LandingPage = () => {
     const remainingCodes = [...validCodes];
     remainingCodes.splice(validCodes.indexOf(promoCode), 1);
     setValidCodes(remainingCodes);
+    localStorage.setItem('validCodes', JSON.stringify(remainingCodes))
     const giftList = Object.keys(tempGiftBucket);
     const randomIndex = Math.floor(Math.random() * giftList.length)
     const gift = giftList[randomIndex];
@@ -37,6 +38,15 @@ const LandingPage = () => {
     if (gift) localStorage.setItem('gift', gift);
     router.push('/scan');
   };
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const codes = localStorage.getItem('validCodes');
+      if (!codes) localStorage.setItem('validCodes', JSON.stringify(tempValidCodes));
+      console.log({ codes }, JSON.stringify(tempValidCodes))
+      setValidCodes(JSON.parse(JSON.stringify(codes)).split(','));
+    } else setValidCodes(tempValidCodes);
+  }, []);
 
   return (
     <Layout title="Marketing AR - Landing">
@@ -56,7 +66,7 @@ const LandingPage = () => {
                 onChange={handleCodeChange}
               />
               {codeError && (
-                <p className='text-[#FFACAC] font-semibold text-xs'> &#9888; You entered an invalid code</p>
+                <p className='text-[#FFACAC] font-semibold text-xs'> &#9888; {usedCode ? 'You entered a used code' : 'You entered an invalid code'}</p>
               )}
             </div>
             <button 
