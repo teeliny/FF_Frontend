@@ -1,3 +1,4 @@
+'use client';
 import { FC, MouseEvent, useEffect, useMemo, useState } from 'react';
 import Select, {Options} from "react-select";
 import axios from 'axios';

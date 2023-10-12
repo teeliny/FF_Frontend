@@ -1,3 +1,4 @@
+'use client';
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { envWithGift, envWithOutGift, tempGiftBucket } from '../utils';
@@ -11,6 +12,9 @@ const Stream = () => {
   const [userGift, setUserGift] = useState<null | string>(null);
   const [currTime, setCurrTime] = useState(0);
 
+  // const [timer, setTimer] = useState(0);
+  // const [loaded, setLoaded] = useState(false);
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const wishId = localStorage.getItem('wishId');
@@ -22,6 +26,17 @@ const Stream = () => {
       }
     }
   }, []);
+
+  // // iframe counter effect
+  // useEffect(() => {
+  //   if (userEnv) {
+  //     const interval = setInterval(() => { 
+  //       setTimer(prev => prev + 0.5); 
+  //     }, 500); 
+  //     //Clearing the interval
+  //     if (timer >= userEnv.duration) return () => clearInterval(interval); 
+  //   }
+  // }, [loaded, userEnv]);
 
   return (
     <Layout title="Marketing AR - Stream">
@@ -41,12 +56,21 @@ const Stream = () => {
               localStorage.removeItem('gift');
             }}
             // controls={currTime < 5}
-            // controls
+            controls
             autoPlay
             // muted
           >
           </video>
         )}
+        {/* {userEnv && (
+          <iframe 
+            ref={videoRef} 
+            src={userEnv.url} 
+            style={{ height: '100vh', width: '100vw'}}
+            onLoad={() => setLoaded(true)}
+            allow="autoplay"
+          />
+        )} */}
         {currTime >= 5.8 && currTime <= 10.7 && userGift && (
           <div className='absolute top-24 right-8'>
             <Image src={userGift} width={120} height={80} alt='' className='' />
