@@ -1,3 +1,4 @@
+'use client';
 import React, { Fragment, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -8,7 +9,6 @@ const ScanPage = () => {
   const [showReady, setShowReady] = useState(true)
   const handleBtnClick = () => {
     setShowReady(false);
-    console.log('launch AR experience');
     // setTimeout(() => {
     //   router.push('/reality');
     // }, 3000);
