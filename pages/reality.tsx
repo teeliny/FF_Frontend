@@ -28,7 +28,6 @@ const RealityPage = () => {
     if (currSlide) setSubmitWishModal(true);
     console.log({ currSlide })
   };
-  console.log(currSlide, submitWishModal)
   
   return (
     <Layout title="Marketing AR - Reality">
@@ -57,7 +56,7 @@ const RealityPage = () => {
             <div className='w-full'>
               {currTime >= 5 && (
                 <div className='absolute -translate-x-1/2 left-1/2 top-1/2 -translate-y-1/4'>
-                  <Image src="/images/svg/callout.svg" width={10} height={8} alt='callout' className='w-[100%]' />
+                  <Image src="/images/svg/callout.svg" width={10} height={8} alt='callout' className='w-full' />
                 </div>
               )}
               {currTime >= 12 && (
@@ -84,7 +83,10 @@ const RealityPage = () => {
                   </SwiperSlide>
                 ))}
               </Swiper>
-              <button className={`self-center py-3 mt-4 uppercase px-14 w-fit ${+currSlide < 1 ? 'text-[#1A191999] bg-[#636463]' : 'text-[#0A3085] bg-yellow-300'}`} onClick={submitWishHandler} disabled={+currSlide < 1}>make my wish</button>
+              <button
+                style={{color: +currSlide >= 1 ? '#0A3085' : '#1A191999', backgroundColor: +currSlide >= 1 ? '#FFFF00' : '#636463'}}
+                className={`self-center py-3 mt-4 uppercase px-14 w-fit`} 
+                onClick={submitWishHandler} disabled={+currSlide < 1}>make my wish</button>
             </div>
           )}
         </div>

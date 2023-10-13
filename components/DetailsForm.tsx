@@ -115,8 +115,8 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
         <div className='flex items-center gap-2' style={{ backgroundColor: '#fff'}}>
           <Image width={80} height={80} src={wish.img} alt={''} />
           <div>
-            <p className='text-xs font-medium text-[#0A3085]'>Your What The Flying Wish is:</p>
-            <p style={{ width: 'calc(100% - 8px)', whiteSpace: 'normal'}} className='text-base italic font-semibold leading-tight text-[#0A3085]'>{wish.description}</p>
+            <p className='text-xs font-medium' style={{color: '#0A3085'}}>Your What The Flying Wish is:</p>
+            <p style={{ width: 'calc(100% - 8px)', whiteSpace: 'normal',color: '#0A3085'}} className='text-base italic font-semibold leading-tight'>{wish.description}</p>
           </div>
         </div>
       )}
@@ -124,8 +124,16 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
       <h3 className='mt-8 mb-6 text-lg font-extrabold text-center text-yellow-300 uppercase'>Please enter your details</h3>
       <form>
         <div 
-          style={{backgroundColor: '#ffffff22', paddingLeft: '8px', height: '3.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center'}} 
-          className={`w-full mb-6 border ${formError.first_name ? 'border-[#F32525] bg-[#FFEAEA] text-[#F32525]' :  'border-[#0A3085] bg-transparent text-white'}`}
+          style={{
+            paddingLeft: '8px', 
+            height: '3.5rem', 
+            display: 'flex', 
+            flexDirection: 'column', 
+            border: formError.first_name ? '1px solid #F32525' : '1px solid #0A3085',
+            backgroundColor: formError.first_name ? '#FFEAEA' : 'transparent',
+            color: formError.first_name ? '#F32525' : '#ffffff'
+          }} 
+          className={`w-full mb-6 border`}
         >
           {formState.first_name.length > 0 && (
             <label className='w-full text-xs text-left'>First name</label>
@@ -138,13 +146,21 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
             onChange={(e) => handleFormChange('first_name', e.target.value)}
           />
           {formError.first_name && (
-            <p className='text-[#FFACAC] font-semibold text-xs mt-2'>{formError.first_name}</p>
+            <p className='font-semibold text-xs mt-2' style={{color: '#FFACAC'}}>{formError.first_name}</p>
           )}
         </div>
 
         <div 
-          style={{backgroundColor: '#ffffff22', paddingLeft: '8px', height: '3.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center'}} 
-          className={`w-full mb-6 border ${formError.last_name ? 'border-[#F32525] bg-[#FFEAEA] text-[#F32525]' :  'border-[#0A3085] bg-transparent text-white'}`}
+          style={{
+            paddingLeft: '8px', 
+            height: '3.5rem', 
+            display: 'flex', 
+            flexDirection: 'column', 
+            border: formError.last_name ? '1px solid #F32525' : '1px solid #0A3085',
+            backgroundColor: formError.last_name ? '#FFEAEA' : 'transparent',
+            color: formError.last_name ? '#F32525' : '#ffffff'
+          }}
+          className={`w-full mb-6 border`}
         >
           {formState.last_name.length > 0 && (
             <label className='w-full text-xs text-left'>Last name</label>
@@ -157,13 +173,21 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
             onChange={(e) => handleFormChange('last_name', e.target.value)}
           />
           {formError.last_name && (
-            <p className='text-[#FFACAC] font-semibold text-xs mt-2'>{formError.last_name}</p>
+            <p className='font-semibold text-xs mt-2' style={{color: '#FFACAC'}}>{formError.last_name}</p>
           )}
         </div>
 
         <div 
-          style={{backgroundColor: '#ffffff22', paddingLeft: '8px', height: '3.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center'}} 
-          className={`w-full mb-6 border ${formError.phone_number ? 'border-[#F32525] bg-[#FFEAEA] text-[#F32525]' :  'border-[#0A3085] bg-transparent text-white'}`}
+          style={{
+            paddingLeft: '8px', 
+            height: '3.5rem', 
+            display: 'flex', 
+            flexDirection: 'column', 
+            border: formError.phone_number ? '1px solid #F32525' : '1px solid #0A3085',
+            backgroundColor: formError.phone_number ? '#FFEAEA' : 'transparent',
+            color: formError.phone_number ? '#F32525' : '#ffffff'
+          }} 
+          className={`w-full mb-6 border`}
         >
           {formState.phone_number.length > 0 && (
             <label className='w-full text-xs text-left'>Last name</label>
@@ -176,7 +200,7 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
             onChange={(e) => handleFormChange('phone_number', e.target.value)}
           />
           {formError.phone_number && (
-            <p className='text-[#FFACAC] font-semibold text-xs mt-2'>{formError.phone_number}</p>
+            <p className='font-semibold text-xs mt-2' style={{color: '#FFACAC'}}>{formError.phone_number}</p>
           )}
         </div>
 
@@ -201,15 +225,21 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
             onChange={(option) => handleFormChange('valid_passport', option)}
           >
             <div className='flex gap-2'>
-              <Radio style={{width: '1.5rem', height: '1.5rem'}} className='accent-[#0A3085] bg-transparent' value="yes" /><span className='text-[#0A3085]'>Yes</span>
+              <Radio style={{width: '1.5rem', height: '1.5rem', accentColor: '#0A3085'}} className='bg-transparent' value="yes" /><span style={{color: '#0A3085'}}>Yes</span>
             </div>
             <div className='flex gap-2'>
-              <Radio style={{width: '1.5rem', height: '1.5rem'}} className='accent-[#0A3085]' value="no" /><span className='text-[#0A3085]'>No</span>
+              <Radio style={{width: '1.5rem', height: '1.5rem', accentColor: '#0A3085'}} value="no" /><span style={{color: '#0A3085'}}>No</span>
             </div>
           </RadioGroup>
         </div>
         
-        <button className={`py-3 mt-8 uppercase px-8 w-full text-xl mb-4 ${!isComplete ? 'text-[#1A191999] bg-[#636463]' : 'text-[#0A3085] bg-yellow-300'}`} onClick={submitHandler}>Submit my Flying Wish!</button>
+        <button 
+          style={{color: !isComplete ? '#1A191999' : '#0A3085', backgroundColor: !isComplete ? '#636463' : '#FFFF00'}} 
+          className={`py-3 mt-8 uppercase px-8 w-full text-xl mb-4`} 
+          onClick={submitHandler}
+        >
+          Submit my Flying Wish!
+        </button>
       </form>
     </div>
   )

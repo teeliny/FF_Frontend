@@ -4,7 +4,7 @@ import { Layout } from "../components"
 const TermsPage = () => {
   return (
     <Layout title="Marketing AR - Terms of Service">
-      <div className='bg-[#0A3085]'>
+      <div style={{ backgroundColor: '#0A3085' }}>
         <div className='px-6 py-10 wrapper'>
           <h2 className='mb-6 text-2xl font-bold text-center text-yellow-300 uppercase'>terms of service</h2>
           <p className='text-white'>
