@@ -13,7 +13,7 @@ const Stream = () => {
   const [currTime, setCurrTime] = useState(0);
 
   // const [timer, setTimer] = useState(0);
-  const [loaded, setLoaded] = useState(false);
+  // const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -37,11 +37,11 @@ const Stream = () => {
   //     if (timer >= userEnv.duration) return () => clearInterval(interval); 
   //   }
   // }, [loaded, userEnv]);
-  console.log(loaded);
+
   return (
     <Layout title="Marketing AR - Stream">
       <div className='reality-background h-full' style={{ backgroundImage: "url('/images/svg/reality-one.svg'), url('/images/svg/reality-three.svg'), url('/images/svg/reality-two.svg')" }}>
-        {/* {userEnv && (
+        {userEnv && (
           <video 
             ref={videoRef} 
             style={{ height: '100vh', width: '100vw'}} 
@@ -60,9 +60,9 @@ const Stream = () => {
             // muted
           >
           </video>
-        )} */}
+        )}
 
-        {userEnv && (
+        {/* {userEnv && (
           <iframe 
             ref={videoRef} 
             src={userEnv.url} 
@@ -70,13 +70,13 @@ const Stream = () => {
             onLoad={() => setLoaded(true)}
             allow="autoplay"
           />
-        )}
+        )} */}
 
-        {/* {currTime >= 5.8 && currTime <= 10.7 && userGift && (
+        {currTime >= 5.8 && currTime <= 10.7 && userGift && (
           <div className='absolute top-24 right-8'>
             <Image src={userGift} width={120} height={80} alt='' className='' />
           </div>
-        )} */}
+        )}
       </div>
     </Layout>
   )
