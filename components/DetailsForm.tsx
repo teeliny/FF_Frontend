@@ -209,7 +209,7 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
           </RadioGroup>
         </div>
         
-        <button className={`py-3 mt-8 uppercase px-10 w-full text-xl mb-4 ${!isComplete ? 'text-[#1A191999] bg-[#636463]' : 'text-[#0A3085] bg-yellow-300'}`} onClick={submitHandler}>Submit my Flying Wish!</button>
+        <button className={`py-3 mt-8 uppercase px-8 w-full text-xl mb-4 ${!isComplete ? 'text-[#1A191999] bg-[#636463]' : 'text-[#0A3085] bg-yellow-300'}`} onClick={submitHandler}>Submit my Flying Wish!</button>
       </form>
     </div>
   )
