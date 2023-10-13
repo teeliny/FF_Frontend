@@ -23,7 +23,7 @@ const IndexPage = () => {
       localStorage.setItem('gate', '1');
       setTimeout(() => {
         router.push('/landing');
-      }, 2000);
+      }, 1000);
     }
   }, [withinLimit]);
 
