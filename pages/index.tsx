@@ -20,10 +20,10 @@ const IndexPage = () => {
 
   useEffect(() => {
     if (withinLimit) {
-      // localStorage.setItem('gate', '1');
-      // setTimeout(() => {
-      //   router.push('/landing');
-      // }, 1000);
+      localStorage.setItem('gate', '1');
+      setTimeout(() => {
+        router.push('/landing');
+      }, 1000);
     }
   }, [withinLimit]);
   console.log(withinLimit)
@@ -60,7 +60,7 @@ const IndexPage = () => {
                       left: withinLimit ? 'auto' : '0',
                       right: withinLimit ? '0' : 'auto',
                     }} 
-                    className='px-2 flex justify-center'
+                    className='px-2 flex justify-center items-center'
                   >
                     <div 
                       style={{backgroundColor: 'rgba(10, 48, 133, 1)', width: '45px', height: '45px', borderRadius: '50%', marginRight: 'auto'}}
@@ -74,16 +74,6 @@ const IndexPage = () => {
                       />
                     </div>
                   </div>
-                  {/* <Switch
-                    className={`w-full h-16 ${withinLimit ? 'on-switch' : ''}`}
-                    checked={withinLimit}
-                    onChange={handleSwitchChange}
-                    uncheckedIcon={false}
-                    checkedIcon={false}
-                    uncheckedHandleIcon={<Image src='/images/svg/right-arrow.svg' alt='' width={10} height={10} />}
-                    checkedHandleIcon={<Image src='/images/svg/mark.svg' alt='' width={10} height={10} />}
-                  /> */}
-                  {/* <p onClick={handleSwitchChange} className='absolute text-xl font-medium text-yellow-300 -translate-x-1/2 -translate-y-1/2 cursor-pointer top-1/2 left-1/2'>{withinLimit ? "I'm 18 years +" : 'Slide here'}</p> */}
                 </div>
                 <p 
                   className='font-bold text-white underline cursor-pointer' 

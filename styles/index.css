@@ -20,57 +20,34 @@
   @apply relative w-full h-full overflow-x-hidden overflow-y-scroll;
 }
 
-/* react switch style starts */
-.on-switch > div:nth-child(2) {
-  left: calc(100% - 45px);
-  -webkit-animation: slide 0.1s forwards;
-  -webkit-animation-delay: 2s;
-  animation: slide 0.1s forwards;
-  animation-delay: 2s;
-  transition-timing-function: ease-in-out;
-}
-
-.react-switch-bg {
-  height: 100% !important;
-  width: 100% !important;
-  margin: 0;
-  position: relative;
-  background: rgba(10, 48, 133, 0.5) !important;
-  border-radius: 40px !important;
-  cursor: pointer;
-}
-
-.react-switch-handle {
-  height: 45px !important;
-  width: 45px !important;
-  top: 50% !important;
-  transform: translateY(-50%) !important;
-  background-color: rgba(10, 48, 133, 1) !important;
-}
-
-.react-switch-handle > div:nth-child(1) {
-  left: 50% !important;
-  top: 50% !important;
-  transform: translate(-50%, -50%) !important;
-}
-
-.react-switch-handle > div:nth-child(1) > img {
-  width: 100%;
-  height: 100%;
-}
-
-.react-switch-handle > div:nth-child(2) {
-  left: 50% !important;
-  top: 50% !important;
-  transform: translate(-50%, -50%) !important;
-}
-
-.react-switch-handle > div:nth-child(2) > img {
-  width: 100%;
-  height: 100%;
-}
-/* react switch style ends */
-
 ::-webkit-scrollbar {
   display: none;
+}
+
+/* Arrow animation */
+.arrow {
+  cursor: pointer;
+  animation: animate 2s infinite;
+}
+
+.arrow div:nth-child(1) {
+  animation-delay: -0.2s;
+}
+
+.arrow div:nth-child(2) {
+  animation-delay: -0.4s;
+}
+
+@keyframes animate {
+  0% {
+      opacity: 0;
+      transform: translate(0px);
+  }
+  50% {
+      opacity: 1;
+  }
+  100% {
+      opacity: 0;
+      transform: translate(100px);
+  }
 }

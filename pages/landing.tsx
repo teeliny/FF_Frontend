@@ -4,9 +4,11 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Layout } from '../components';
 import { tempGiftBucket, tempValidCodes } from '../utils';
+import Link from 'next/link';
 
 const LandingPage = () => {
   const router = useRouter();
+  const [ratio, setRatio] = useState(false);
   const [promoCode, setPromoCode] = useState('');
   const [codeError, setCodeError] = useState<null | boolean>(null);
   const [usedCode, setUsedCode] = useState<boolean>(null);
@@ -42,12 +44,14 @@ const LandingPage = () => {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
+      const { innerWidth, innerHeight } = window;
+      setRatio(innerWidth / innerHeight >= 0.5)
       const codes = localStorage.getItem('validCodes');
       if (!codes) localStorage.setItem('validCodes', JSON.stringify(tempValidCodes));
       setValidCodes(JSON.parse(codes));
     } else setValidCodes(tempValidCodes);
   }, []);
-
+  console.log(ratio)
   return (
     <Layout title="Marketing AR - Landing">
       <div className='overflow-hidden background' style={{ backgroundImage: "url('/images/png/background.png')" }}>
@@ -89,7 +93,21 @@ const LandingPage = () => {
             </button>
           </form>
         </div>
-        <Image src="/images/svg/genie-bottle.svg" width={10} height={8} alt='logo' className='w-full mt-auto' />
+
+        <Image 
+          src="/images/svg/genie-bottle.svg" 
+          width={10} 
+          height={8} 
+          alt='logo'
+          style={{width: ratio ? '65%' : '100%'}}
+          className='mt-auto mx-auto'
+        />
+        
+        <div className={`absolute bottom-0 w-full px-8 ${ratio ? 'mb-4' : 'mb-14'}`}>
+          <p className='text-center text-xs leading-relaxed text-white font-semibold'>
+            <Link className='font-bold cursor-pointer underline' href='/terms'>Promo Terms and Conditions</Link>
+          </p>
+        </div>
       </div>
     </Layout>
   )

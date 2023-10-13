@@ -28,7 +28,6 @@ const RealityPage = () => {
     if (currSlide) setSubmitWishModal(true);
     console.log({ currSlide })
   };
-  console.log(currSlide, submitWishModal)
   
   return (
     <Layout title="Marketing AR - Reality">
