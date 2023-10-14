@@ -7,7 +7,11 @@ module.exports = {
     "./components/**/*.{html,js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'gilroy': 'var(--font-gilroy)'
+      }
+    },
   },
   plugins: [],
 }

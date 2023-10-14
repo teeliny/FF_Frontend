@@ -128,7 +128,8 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
             paddingLeft: '8px', 
             height: '3.5rem', 
             display: 'flex', 
-            flexDirection: 'column', 
+            flexDirection: 'column',
+            justifyContent: 'center',
             border: formError.first_name ? '1px solid #F32525' : '1px solid #0A3085',
             backgroundColor: formError.first_name ? '#FFEAEA' : 'transparent',
             color: formError.first_name ? '#F32525' : '#ffffff'
@@ -155,7 +156,8 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
             paddingLeft: '8px', 
             height: '3.5rem', 
             display: 'flex', 
-            flexDirection: 'column', 
+            flexDirection: 'column',
+            justifyContent: 'center',
             border: formError.last_name ? '1px solid #F32525' : '1px solid #0A3085',
             backgroundColor: formError.last_name ? '#FFEAEA' : 'transparent',
             color: formError.last_name ? '#F32525' : '#ffffff'
@@ -183,6 +185,7 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
             height: '3.5rem', 
             display: 'flex', 
             flexDirection: 'column', 
+            justifyContent: 'center',
             border: formError.phone_number ? '1px solid #F32525' : '1px solid #0A3085',
             backgroundColor: formError.phone_number ? '#FFEAEA' : 'transparent',
             color: formError.phone_number ? '#F32525' : '#ffffff'
@@ -190,7 +193,7 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
           className={`w-full mb-6 border`}
         >
           {formState.phone_number.length > 0 && (
-            <label className='w-full text-xs text-left'>Last name</label>
+            <label className='w-full text-xs text-left'>Phone number</label>
           )}
           <input 
             className={`w-full font-semibold outline-0 placeholder:text-white placeholder:opacity-50 bg-transparent ${formState.phone_number.length > 0 ? 'text-sm' : 'text-xl'}`}
