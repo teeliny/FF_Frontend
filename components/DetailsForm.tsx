@@ -15,6 +15,7 @@ import {
 import { Radio, RadioGroup } from 'react-radio-group';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import Loader from './Loader';
 
 const CountryFlag = ({code}: {code: string}) => (
   <div className='flex items-center gap-2'>
@@ -40,6 +41,7 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
   const [formState, setFormState] = useState(modifiedState);
   const [formError, setFormError] = useState(defaultError);
   const [isComplete, setIsComplete] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const wish = useMemo(() => wishList.find(item => item.id === wish_id), [wishList, wish_id]);
 
@@ -68,26 +70,30 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
 
   const submitHandler = async (e: MouseEvent) => {
     e.preventDefault();
-    // const wish = wishList.find(item => item.id === formState.wish_option);
-    const promoCode = localStorage.getItem('promo') || '';
-    const giftWon = localStorage.getItem('gift');
-    localStorage.setItem('wishId', wish.id);
-    const payload = {
-      firstname: formState.first_name,
-      lastname: formState.last_name,
-      phone: formState.phone_number,
-      country: formState.country,
-      passport: formState.valid_passport,
-      wish: wish.description,
-      code: promoCode,
-      gift: giftWon,
-    }
-    console.log(payload);
-    router.push('/stream');
-    // const response = await axios.post(`${apiUrl}/verify/addUser`, payload);
-    // if (response.status === 200) {
-    //   console.log(response.data.isSuccess, 'form submitted successfully');
-    // }
+    setLoading(true);
+    setTimeout(() => {
+      // const wish = wishList.find(item => item.id === formState.wish_option);
+      const promoCode = localStorage.getItem('promo') || '';
+      const giftWon = localStorage.getItem('gift');
+      localStorage.setItem('wishId', wish.id);
+      const payload = {
+        firstname: formState.first_name,
+        lastname: formState.last_name,
+        phone: formState.phone_number,
+        country: formState.country,
+        passport: formState.valid_passport,
+        wish: wish.description,
+        code: promoCode,
+        gift: giftWon,
+      }
+      console.log(payload);
+      setLoading(false);
+      router.push('/stream');
+      // const response = await axios.post(`${apiUrl}/verify/addUser`, payload);
+      // if (response.status === 200) {
+      //   console.log(response.data.isSuccess, 'form submitted successfully');
+      // }
+    }, 1000);
   };
 
   // Track form completions to enable button
@@ -170,8 +176,8 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
           <input 
             className={`w-full font-semibold outline-0 placeholder:text-white placeholder:opacity-50 bg-transparent ${formState.last_name.length > 0 ? 'text-sm' : 'text-xl'}`}
             type='text' 
-            value={formState.last_name} 
-            placeholder='Last name' 
+            value={formState.last_name}
+            placeholder='Last name'
             onChange={(e) => handleFormChange('last_name', e.target.value)}
           />
           {formError.last_name && (
@@ -239,9 +245,9 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
         <button 
           style={{color: !isComplete ? '#1A191999' : '#0A3085', backgroundColor: !isComplete ? '#636463' : '#FFFF00'}} 
           className={`py-3 mt-8 uppercase px-8 w-full text-xl mb-4`} 
-          onClick={submitHandler}
+          onClick={!loading ? submitHandler : undefined}
         >
-          Submit my Flying Wish!
+          {loading ? <Loader /> : 'Submit my Flying Wish!'}
         </button>
       </form>
     </div>

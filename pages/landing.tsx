@@ -2,12 +2,13 @@
 import { MouseEvent, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { Layout } from '../components';
+import { Layout, Loader } from '../components';
 import { tempGiftBucket, tempValidCodes } from '../utils';
 import Link from 'next/link';
 
 const LandingPage = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [promoCode, setPromoCode] = useState('');
   const [codeError, setCodeError] = useState<null | boolean>(null);
   const [usedCode, setUsedCode] = useState<boolean>(null);
@@ -22,30 +23,43 @@ const LandingPage = () => {
   }
   const handleSubmit = (e: MouseEvent) => {
     e.preventDefault();
-    const isValid = validCodes.includes(promoCode);
-    const isInList = tempValidCodes.includes(promoCode);
-    if (!isValid) {
-      setCodeError(true);
-      if (isInList) setUsedCode(true);
-      return;
-    }
-    const remainingCodes = [...validCodes];
-    remainingCodes.splice(validCodes.indexOf(promoCode), 1);
-    setValidCodes(remainingCodes);
-    localStorage.setItem('validCodes', JSON.stringify(remainingCodes));
-    const giftList = Object.keys(tempGiftBucket);
-    const randomIndex = Math.floor(Math.random() * giftList.length + 3)
-    const gift = randomIndex < giftList.length ? giftList[randomIndex] : null;
-    localStorage.setItem('promo', promoCode);
-    if (gift) localStorage.setItem('gift', gift);
-    router.push('/scan');
+    setLoading(true);
+    setTimeout(() => {
+      const isValid = validCodes.includes(promoCode);
+      const isInList = tempValidCodes.includes(promoCode);
+      if (!isValid) {
+        setCodeError(true);
+        if (isInList) setUsedCode(true);
+        return;
+      }
+      const remainingCodes = [...validCodes];
+      remainingCodes.splice(validCodes.indexOf(promoCode), 1);
+      setValidCodes(remainingCodes);
+      localStorage.setItem('validCodes', JSON.stringify(remainingCodes));
+      const giftList = Object.keys(tempGiftBucket);
+      const randomIndex = Math.floor(Math.random() * giftList.length + 3)
+      const gift = randomIndex < giftList.length ? giftList[randomIndex] : null;
+      localStorage.setItem('promo', promoCode);
+      if (gift) localStorage.setItem('gift', gift);
+      setLoading(false);
+      router.push('/scan');
+      
+    }, 1000);
   };
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const codes = localStorage.getItem('validCodes');
-      if (!codes) localStorage.setItem('validCodes', JSON.stringify(tempValidCodes));
-      setValidCodes(JSON.parse(codes));
+      if (!codes) {
+        localStorage.setItem('validCodes', JSON.stringify(tempValidCodes));
+        setValidCodes(tempValidCodes);
+      }
+      const parsedCodes = JSON.parse(codes);
+      if (parsedCodes.length > 5) setValidCodes(JSON.parse(codes));
+      else {
+        localStorage.setItem('validCodes', JSON.stringify(tempValidCodes))
+        setValidCodes(tempValidCodes);
+      }
     } else setValidCodes(tempValidCodes);
   }, []);
 
@@ -83,10 +97,10 @@ const LandingPage = () => {
               className={`w-fit mx-auto px-12 uppercase py-3`}
               style={{color: promoCode.length === 9 && !codeError ? '#0A3085' : '#1A191999', backgroundColor: promoCode.length === 9 && !codeError ? '#FFFF00' : '#636463'}}
               type='submit' 
-              onClick={handleSubmit} 
+              onClick={!loading ? handleSubmit : undefined} 
               disabled={promoCode.length !== 9 || codeError}
             >
-                verify
+              {loading ? <Loader /> : 'verify'}
             </button>
           </form>
         </div>
