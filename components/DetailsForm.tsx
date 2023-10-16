@@ -1,5 +1,5 @@
 'use client';
-import { FC, MouseEvent, useEffect, useMemo, useState } from 'react';
+import { FC, Fragment, MouseEvent, useEffect, useMemo, useState } from 'react';
 import Select, {Options} from "react-select";
 import axios from 'axios';
 import { 
@@ -254,12 +254,14 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
             selectedValue={formState.valid_passport} 
             onChange={(option) => handleFormChange('valid_passport', option)}
           >
-            <div className='flex gap-2'>
-              <Radio style={{width: '1.5rem', height: '1.5rem', accentColor: '#0A3085'}} className='bg-transparent' value="yes" /><span style={{color: '#0A3085'}}>Yes</span>
-            </div>
-            <div className='flex gap-2'>
-              <Radio style={{width: '1.5rem', height: '1.5rem', accentColor: '#0A3085'}} value="no" /><span style={{color: '#0A3085'}}>No</span>
-            </div>
+            <Fragment>
+              <div className='flex gap-2'>
+                <Radio style={{width: '1.5rem', height: '1.5rem', accentColor: '#0A3085'}} className='bg-transparent' value="yes" /><span style={{color: '#0A3085'}}>Yes</span>
+              </div>
+              <div className='flex gap-2'>
+                <Radio style={{width: '1.5rem', height: '1.5rem', accentColor: '#0A3085'}} value="no" /><span style={{color: '#0A3085'}}>No</span>
+              </div>
+            </Fragment>
           </RadioGroup>
         </div>
         
