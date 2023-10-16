@@ -1,8 +1,8 @@
 export const countryGroup = {
-  za: { name: 'South Africa', flag: '/images/svg/za-flag.svg' },
-  ng: { name: 'Nigeria', flag: '/images/svg/ng-flag.svg' },
-  sz: { name: 'Eswatini', flag: '/images/svg/sz-flag.svg' },
-  tz: { name: 'Tanzania', flag: '/images/svg/tz-flag.svg' },
+  za: { name: 'South Africa', flag: '/images/svg/za-flag.svg', dialCode: '27' },
+  ng: { name: 'Nigeria', flag: '/images/svg/ng-flag.svg', dialCode: '234' },
+  sz: { name: 'Eswatini', flag: '/images/svg/sz-flag.svg', dialCode: '268' },
+  tz: { name: 'Tanzania', flag: '/images/svg/tz-flag.svg', dialCode: '255' },
 };
 
 export const wishList = [

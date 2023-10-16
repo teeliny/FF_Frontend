@@ -5,12 +5,16 @@ import { useRouter } from 'next/navigation';
 import { Layout, Loader } from '../components';
 import { tempGiftBucket, tempValidCodes } from '../utils';
 import Link from 'next/link';
+import axios from 'axios';
 
 const LandingPage = () => {
   const router = useRouter();
+  const sabaAuthKey = process.env.NEXT_PUBLIC_SABA_AUTH_KEY ?? '';
+  const sabaApi = process.env.NEXT_PUBLIC_SABA_API ?? '';
   const [loading, setLoading] = useState(false);
   const [promoCode, setPromoCode] = useState('');
   const [codeError, setCodeError] = useState<null | boolean>(null);
+  const [errMsg, setErrMsg] = useState<null | string>(null);
   const [usedCode, setUsedCode] = useState<boolean>(null);
   const [validCodes, setValidCodes] = useState([]);
 
@@ -21,6 +25,32 @@ const LandingPage = () => {
     }
     setPromoCode(e.target.value);
   }
+
+  const handleSubmitToSaba = async (e: MouseEvent) => {
+    try {
+      e.preventDefault();
+      setLoading(true);
+      const formData = new FormData();
+      formData.append('auth_key', sabaAuthKey);
+      formData.append('code', promoCode);
+      formData.append('msisdn', '2348088177888');
+      const sendCode = await axios.post(`${sabaApi}/submit_code`, formData);
+      if (sendCode.data.success) {
+        localStorage.setItem('promo', promoCode);
+        router.push('/scan');
+      } else {
+        setCodeError(true);
+        setErrMsg(sendCode.data.message)
+      }
+    } catch (error) {
+      console.log(error);
+      setCodeError(true);
+      setErrMsg('Something went wrong!!!')
+    } finally {
+      setLoading(false);
+    }
+  }
+
   const handleSubmit = (e: MouseEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -90,6 +120,7 @@ const LandingPage = () => {
                 onChange={handleCodeChange}
               />
               {codeError && (
+                // <p style={{color: '#FFACAC'}} className='font-semibold text-xs'>&#9888; {errMsg}</p>
                 <p style={{color: '#FFACAC'}} className='font-semibold text-xs'> &#9888; {usedCode ? 'You entered a used code' : 'You entered an invalid code'}</p>
               )}
             </div>

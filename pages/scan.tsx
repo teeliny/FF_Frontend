@@ -38,7 +38,6 @@ const ScanPage = () => {
         {!showReady && (
           <Experience />
         )}
-        
       </div>
       </Fragment>
     </Layout>

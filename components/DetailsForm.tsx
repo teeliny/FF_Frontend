@@ -22,39 +22,21 @@ const CountryFlag = ({code}: {code: string}) => (
     <Image width={20} height={20} src={countryGroup[code].flag} alt={code} />
     <p>{countryGroup[code].name}</p>
   </div>
-)
-
-// const WishSection = ({description, img} : {description: string, img: string}) => (
-//   <div className='flex items-center gap-2'>
-//     <Image width={64} height={64} src={img} alt={''} />
-//     <div>
-//       <p className='text-xs font-medium'>Your What The Flying Wish is:</p>
-//       <p style={{ width: 'calc(100% - 8px)', whiteSpace: 'normal'}} className='text-base italic font-semibold leading-tight'>{description}</p>
-//     </div>
-//   </div>
-// )
+);
 
 export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
   const router = useRouter();
+  const sabaAuthKey = process.env.NEXT_PUBLIC_SABA_AUTH_KEY ?? '';
+  const sabaApi = process.env.NEXT_PUBLIC_SABA_API ?? '';
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? '';
   const modifiedState = wish_id ? {...defaultState, wish_option: wish_id } : defaultState;
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL as string;
   const [formState, setFormState] = useState(modifiedState);
   const [formError, setFormError] = useState(defaultError);
   const [isComplete, setIsComplete] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [errMsg, setErrMsg] = useState<null | string>(null);
 
   const wish = useMemo(() => wishList.find(item => item.id === wish_id), [wishList, wish_id]);
-
-  // const wishOptions = useMemo(() => (
-  //   wishList.map((wish) => ({
-  //     value: wish.id,
-  //     label: <WishSection description={wish.description} img={wish.img} />
-  //   }))
-  // ), [wishList]);
-  // const defaultWish = useMemo(() => {
-  //   const currWish = wishOptions.find(wish => wish.value === wish_id);
-  //   return currWish ?? wishOptions[0];
-  // }, [wishOptions, wish_id]);
 
   const countryOptions: Options<ICountryOption> = [
     { value: 'South Africa', label: <CountryFlag code='za' /> },
@@ -68,11 +50,61 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
     setFormState({ ...formState, [key]: value });
   };
 
+  const submitHandlerToSaba = async (e: MouseEvent) => {
+    try {
+      e.preventDefault();
+      setLoading(true);
+      const promoCode = localStorage.getItem('promo');
+      if (!promoCode) {
+        setErrMsg('Promo code not found');
+        return;
+      }
+      const { phone_number, country, first_name, last_name, valid_passport } = formState;
+      const selectedCountry = Object.values(countryGroup).find((item) => item.name === country);
+      let msisdn = phone_number;
+      if (phone_number[0] === '+') msisdn = phone_number.slice(1);
+      else if (phone_number[0] === '0') msisdn = `${selectedCountry.dialCode}${phone_number.slice(1)}`;
+
+      const payload = {
+        firstname: first_name,
+        lastname: last_name,
+        phone: phone_number,
+        country: country,
+        passport: valid_passport,
+        wish: wish.description,
+        code: promoCode,
+        gift: null,
+      }
+      
+      const formData = new FormData();
+      formData.append('auth_key', sabaAuthKey);
+      formData.append('code', promoCode);
+      formData.append('msisdn', msisdn);
+      const retrievePossibleGift = await axios.post(`${sabaApi}/submit_code`, formData);
+      if (retrievePossibleGift.data.success) {
+        if (retrievePossibleGift.data.prize) {
+          localStorage.setItem('gift', retrievePossibleGift.data.prize);
+          payload.gift = retrievePossibleGift.data.prize;
+        }
+
+        const response = await axios.post(`${apiUrl}/verify/addUser`, payload);
+        if (response.status === 200) {
+          // console.log(response.data.isSuccess, 'form submitted successfully');
+          router.push('/stream');
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      setErrMsg('Something went wrong!!!')
+    } finally {
+      setLoading(false);
+    }
+  }
+
   const submitHandler = async (e: MouseEvent) => {
     e.preventDefault();
     setLoading(true);
     setTimeout(() => {
-      // const wish = wishList.find(item => item.id === formState.wish_option);
       const promoCode = localStorage.getItem('promo') || '';
       const giftWon = localStorage.getItem('gift');
       localStorage.setItem('wishId', wish.id);
@@ -103,20 +135,9 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
     else setIsComplete(false);
   }, [formState]);
 
+  console.log(formState)
   return (
     <div className='flex flex-col' style={{ height: 'calc(100vh - 4.5rem)', overflowY: 'scroll', scrollbarWidth: 'none'}}>
-      {/* <div className='mt-6'>
-        <Select
-          className=''
-          closeMenuOnSelect={true}
-          styles={wishStyles}
-          components={animatedComponents}
-          defaultValue={defaultWish}
-          options={wishOptions}
-          placeholder={<div className='text-xl font-semibold'>Wish</div>} 
-          onChange={(newValue: ICountryOption) => handleFormChange('wish_option', newValue.value)}
-        />
-      </div> */}
       {wish && (
         <div className='flex items-center gap-2' style={{ backgroundColor: '#fff'}}>
           <Image width={80} height={80} src={wish.img} alt={''} />
@@ -242,13 +263,16 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
           </RadioGroup>
         </div>
         
-        <button 
-          style={{color: !isComplete ? '#1A191999' : '#0A3085', backgroundColor: !isComplete ? '#636463' : '#FFFF00'}} 
-          className={`py-3 mt-8 uppercase px-8 w-full text-xl mb-4`} 
-          onClick={!loading ? submitHandler : undefined}
-        >
-          {loading ? <Loader /> : 'Submit my Flying Wish!'}
-        </button>
+        <div className='mt-8 w-full mb-4'>
+          <button 
+            style={{color: !isComplete ? '#1A191999' : '#0A3085', backgroundColor: !isComplete ? '#636463' : '#FFFF00'}} 
+            className={`py-3 uppercase px-8 w-full text-xl`} 
+            onClick={!loading ? submitHandler : undefined}
+          >
+            {loading ? <Loader /> : 'Submit my Flying Wish!'}
+          </button>
+          {errMsg && ( <p style={{color: '#FFACAC'}} className='font-semibold text-xs text-center mt-1'>&#9888; {errMsg}</p>)}
+        </div>
       </form>
     </div>
   )
