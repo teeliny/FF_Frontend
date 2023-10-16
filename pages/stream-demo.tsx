@@ -2,8 +2,8 @@
 import { useEffect, useRef, useState } from 'react';
 // import Image from 'next/image';
 // import { envWithGift, envWithOutGift, tempGiftBucket } from '../utils';
-import { Layout } from '../components';
 import { useRouter } from 'next/navigation';
+import { Layout } from '../components';
 
 const StreamDemo = () => {
   const videoRef = useRef(null);

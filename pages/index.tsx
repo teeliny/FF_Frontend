@@ -1,21 +1,40 @@
 'use client';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Switch from "react-switch";
+import Draggable from 'react-draggable';
 import { Layout } from '../components';
 import Link from 'next/link';
 
 const IndexPage = () => {
   const router = useRouter();
+  const dragRef = useRef(null);
+  const childRef = useRef(null);
   const [withinLimit, setWithinLimit] = useState(false);
   const [belowLimit, setBelowLimit] = useState(false);
+  const [frame, setFrame] = useState({left: 0, right: 0});
+  const [dragPosition, setDragPosition] = useState({x: 0, y: 0});
+
   const handleSwitchChange = () => {
     setWithinLimit(!withinLimit);
+    setDragPosition({x: frame.right, y: 0});
   }
   const handleBelowLimit = () => {
     localStorage.setItem('gate', '0');
     setBelowLimit(true);
+  }
+
+  const handleStopDrag = () => {
+    const minWidth = frame.right * 0.75;
+    const currXPosition = childRef.current.state.x;
+    if (currXPosition < minWidth) {
+      setDragPosition({x: 0, y: 0});
+      setWithinLimit(false);
+    } else {
+      setDragPosition({x: frame.right, y: 0});
+      setWithinLimit(true);
+    }
   }
 
   useEffect(() => {
@@ -26,7 +45,13 @@ const IndexPage = () => {
       }, 1000);
     }
   }, [withinLimit]);
-  console.log(withinLimit)
+
+  // Set the region that the drag button should cover
+  useEffect(() => {
+    const { left, right } = dragRef.current?.getBoundingClientRect() || {};
+    setFrame({left: 0, right: right - left - 61});
+  }, []);
+
   return (
     <Layout title="Marketing AR">
       <div className='background' style={{ backgroundImage: "url('/images/png/background.png')" }}>
@@ -41,6 +66,7 @@ const IndexPage = () => {
               <Fragment>
                 <div className='relative w-full h-16 mt-8 mb-6'>
                   <div
+                    ref={dragRef}
                     style={{ background: 'rgba(10, 48, 133, 0.5)', borderRadius: '40px'}}
                     className='relative w-full h-full bg-red-300 flex items-center justify-center cursor-pointer'
                   >
@@ -53,26 +79,28 @@ const IndexPage = () => {
                     />
                     <label htmlFor="toggle" className="text-xl font-medium text-yellow-300 w-full text-center">{withinLimit ? "I'm 18 years +" : 'Slide here'}</label>
                   </div>
+
                   <div 
                     style={{
                       position:'absolute', 
                       top: '50%', transform: 'translateY(-50%)',
-                      left: withinLimit ? 'auto' : '0',
-                      right: withinLimit ? '0' : 'auto',
+                      left: '0',
                     }} 
                     className='px-2 flex justify-center items-center'
                   >
-                    <div 
-                      style={{backgroundColor: 'rgba(10, 48, 133, 1)', width: '45px', height: '45px', borderRadius: '50%', marginRight: 'auto'}}
-                      className='flex items-center justify-center' 
-                    >
-                      <Image 
-                        src={withinLimit ? '/images/svg/mark.svg' : '/images/svg/right-arrow.svg'} 
-                        alt='' 
-                        width={25} 
-                        height={25} 
-                      />
-                    </div>
+                    <Draggable axis='x' bounds={frame} ref={childRef} onStop={handleStopDrag} position={dragPosition}>
+                      <div 
+                        style={{backgroundColor: 'rgba(10, 48, 133, 1)', width: '45px', height: '45px', borderRadius: '50%', marginRight: 'auto'}}
+                        className='flex items-center justify-center' 
+                      >
+                        <Image 
+                          src={withinLimit ? '/images/svg/mark.svg' : '/images/svg/right-arrow.svg'} 
+                          alt='' 
+                          width={25} 
+                          height={25} 
+                        />
+                      </div>
+                    </Draggable>
                   </div>
                 </div>
                 <p 
