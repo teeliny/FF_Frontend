@@ -5,12 +5,14 @@ import { envWithGift, envWithOutGift, tempGiftBucket } from '../utils';
 import { Layout } from '../components';
 import { useRouter } from 'next/navigation';
 
-const Stream = () => {
+const StreamDemo = () => {
   const videoRef = useRef(null);
   const router = useRouter();
   const [userEnv, setUserEnv] = useState<null | {url: string, duration: number}>(null);
   const [userGift, setUserGift] = useState<null | string>(null);
   const [currTime, setCurrTime] = useState(0);
+
+  const [startTime, setStartTime] = useState(0);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -24,39 +26,47 @@ const Stream = () => {
     }
   }, []);
 
+  const getTime = () => {
+    const time = Date.now() - startTime;
+    setCurrTime(Math.floor(time / 1000));
+  };
+
+  useEffect(() => {
+    if (startTime) {
+      const interval = setInterval(() => getTime(), 1000);
+  
+      return () => clearInterval(interval);
+    }
+  }, [startTime]);
+
   return (
     <Layout title="Marketing AR - Stream">
       <div className='reality-background h-full' style={{ backgroundImage: "url('/images/svg/reality-one.svg'), url('/images/svg/reality-three.svg'), url('/images/svg/reality-two.svg')" }}>
         {userEnv && (
-          <video 
-            ref={videoRef} 
-            style={{ height: '100vh', width: '100vw'}} 
-            src={userEnv.url}
-            onTimeUpdate={(e) => {
-              setCurrTime(e.currentTarget.currentTime ?? 0);
+          <iframe 
+            ref={videoRef}
+            allow='camera;autoplay'
+            src={'https://beertechafrica.8thwall.app/dialogue2'} 
+            style={{ height: '100vh', width: '100vw'}}
+            onLoad={() => {
+              setStartTime(Date.now() + 4000);
             }}
-            onEnded={() => {
-              console.log('ended');
-              router.push('/landing');
-              // localStorage.removeItem('wishId');
-              // localStorage.removeItem('promo');
-              // localStorage.removeItem('gift');
-            }}
-            controls={currTime < 2}
-            autoPlay
-            // muted
-          >
-          </video>
+          />
         )}
-
-        {currTime >= 5.8 && currTime <= 10.7 && userGift && (
-          <div className='absolute top-24 right-8'>
-            <Image src={userGift} width={120} height={80} alt='' className='' />
+        {/* {currTime > 8 && (
+          <div className='w-full absolute bottom-4 justify-center flex'>
+            <button 
+              style={{color: '#0A3085', backgroundColor: '#FFFF00'}} 
+              className={`py-3 uppercase px-8 w-fit text-xl`} 
+              // onClick={submitHandler}
+            >
+              great!
+            </button>
           </div>
-        )}
+        )} */}
       </div>
     </Layout>
   )
 }
 
-export default Stream
+export default StreamDemo

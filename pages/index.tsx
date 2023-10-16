@@ -35,7 +35,7 @@ const IndexPage = () => {
             <Image src="/images/svg/smoke.svg" width={10} height={8} alt='smoke' className='w-full' />
             <Image src="/images/svg/logo.svg" width={10} height={8} alt='logo' className='absolute -translate-x-1/2 -translate-y-1/2 w-fit top-1/2 left-1/2' />
           </div>
-          <div className='flex flex-col items-center w-full px-8'>
+          <div className='flex flex-col items-center w-full px-8 mb-20'>
             <h2 className='mx-8 text-2xl font-bold text-center text-yellow-300 uppercase'>{belowLimit ? 'You must be of legal drinking age to enter this experience' : "Slide if you're 18 years or over"}</h2>
             {!belowLimit && (
               <Fragment>

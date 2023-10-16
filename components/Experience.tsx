@@ -18,7 +18,7 @@ export const Experience = () => {
   //       router.push('/wish')
   //     }, 3000);
   //   }
-  // })
+  // }, [launch]);
 
   return (
     <Fragment>
