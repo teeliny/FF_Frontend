@@ -67,7 +67,7 @@ const LandingPage = () => {
       setValidCodes(remainingCodes);
       localStorage.setItem('validCodes', JSON.stringify(remainingCodes));
       const giftList = Object.keys(tempGiftBucket);
-      const randomIndex = Math.floor(Math.random() * giftList.length + 3)
+      const randomIndex = Math.floor(Math.random() * giftList.length)
       const gift = randomIndex < giftList.length ? giftList[randomIndex] : null;
       localStorage.setItem('promo', promoCode);
       if (gift) localStorage.setItem('gift', gift);

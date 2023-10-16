@@ -10,10 +10,6 @@ import 'swiper/css/scrollbar';
 const RealityPage = () => {
   const frameRef = useRef<HTMLVideoElement | null>(null);
   const [currTime, setCurrTime] = useState(0);
-
-  const onReady = (e: SyntheticEvent<HTMLVideoElement, Event>) => {
-    console.log('on ready', e.currentTarget.readyState);
-  };
   
   const [currSlide, setCurrSlide] = useState<string | null>(null);
   const [submitWishModal, setSubmitWishModal] = useState(false);
@@ -36,18 +32,17 @@ const RealityPage = () => {
           <div className='relative w-full'>
             <video 
               ref={frameRef} 
-              style={{ height: '65vh', width: '100vw'}} 
-              // style={{ height: `${currTime < 15 ? '100vh' : '65vh'}`, width: '100vw'}}
-              src='/images/dialouge.mp4'
+              // style={{ height: '100vh', width: '100vw'}} 
+              style={{ height: `${currTime < 15 ? '100vh' : '65vh'}`, width: '100vw'}}
+              src='https://res.cloudinary.com/teeliny/video/upload/v1697479380/Flying%20Fish%20AR/demo/Dialogue_1_smoke_mjnmlr.mp4'
               // src='https://player.vimeo.com/external/250688977.sd.mp4?s=d14b1f1a971dde13c79d6e436b88a6a928dfe26b&profile_id=165'
-              onLoadedData={onReady}
               // onPlaying={(e) => {
               //   console.log(e.currentTarget.muted, 'onplaying')
               // }}
               onTimeUpdate={(e) => {
                 setCurrTime(e.currentTarget.currentTime ?? 0);
               }}
-              controls={currTime < 5}
+              controls={currTime < 2}
               autoPlay
               // playsInline
               // muted

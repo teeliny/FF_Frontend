@@ -12,13 +12,13 @@ export const Experience = () => {
     }, 2000);
   }, []);
 
-  // useEffect(() => {
-  //   if (launch) {
-  //     setTimeout(() => {
-  //       router.push('/wish')
-  //     }, 3000);
-  //   }
-  // }, [launch]);
+  useEffect(() => {
+    if (launch) {
+      setTimeout(() => {
+        router.push('/reality')
+      }, 3000);
+    }
+  }, [launch]);
 
   return (
     <Fragment>

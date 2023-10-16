@@ -120,7 +120,7 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
       }
       console.log(payload);
       setLoading(false);
-      router.push('/stream-demo');
+      router.push('/stream');
       // const response = await axios.post(`${apiUrl}/verify/addUser`, payload);
       // if (response.status === 200) {
       //   console.log(response.data.isSuccess, 'form submitted successfully');
