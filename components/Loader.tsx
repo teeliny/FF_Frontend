@@ -3,7 +3,7 @@ import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 
 export const Loader = () => {
   return (
-    <div className="text-center">
+    <div className="text-center w-fit mx-auto">
       <div className='animate-spin dark:text-white'>
         <AiOutlineLoading3Quarters color='#0A3085' size={20} />
       </div>

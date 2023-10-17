@@ -263,7 +263,7 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
           </RadioGroup>
         </div>
         
-        <div className='mt-8 w-full mb-4'>
+        <div className='mt-8 w-full mb-4 relative'>
           <button 
             style={{color: !isComplete ? '#1A191999' : '#0A3085', backgroundColor: !isComplete ? '#636463' : '#FFFF00'}} 
             className={`py-3 uppercase px-8 w-full text-xl`} 

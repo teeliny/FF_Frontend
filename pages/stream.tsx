@@ -60,7 +60,7 @@ const Stream = () => {
 
         {currTime >= 5.8 && currTime <= 10.7 && userGift && (
           <div className='absolute top-24 right-8'>
-            <Image src={userGift} width={120} height={80} alt='' className='' />
+            <Image src={userGift || tempGiftBucket.cash} width={120} height={80} alt='' className='' />
           </div>
         )}
 
