@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Swiper as SwiperType } from 'swiper/types';
 import { Layout, Modal, DetailsForm } from '../components';
-import { wishList } from '../utils';
+import { realityList } from '../utils';
 import 'swiper/css';
 import 'swiper/css/scrollbar';
 
@@ -28,7 +28,7 @@ const RealityPage = () => {
   return (
     <Layout title="Marketing AR - Reality">
       <Fragment>
-        <div className='reality-background' style={{ backgroundImage: "url('/images/svg/reality-one.svg'), url('/images/svg/reality-three.svg'), url('/images/svg/reality-two.svg')" }}>
+        <div className='reality-background' style={currTime >= 15 ? { backgroundImage: "url('/images/svg/reality-one.svg'), url('/images/svg/reality-three.svg'), url('/images/svg/reality-two.svg')" } : {background: '#000000'}}>
           <div className='relative w-full'>
             <video 
               ref={frameRef} 
@@ -71,7 +71,7 @@ const RealityPage = () => {
                 loop
                 className={`w-full`}
               >
-                {wishList.map((wish) => (
+                {realityList.map((wish) => (
                   <SwiperSlide key={wish.id} className='!mr-0 !w-48 !flex flex-col gap-2 items-center' onClick={() => slideChangeHandler(wish.id)}>
                     <Image src={wish.img} width={10} height={8} alt={`wish-${wish.id}`} className={`w-48 max-h-28 ${currSlide === wish.id ? 'border-2 border-yellow-300' : ''}`} />
                     <p className='mx-2 text-sm font-semibold text-center text-white'>{wish.description}</p>

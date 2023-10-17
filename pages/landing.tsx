@@ -85,7 +85,7 @@ const LandingPage = () => {
         setValidCodes(tempValidCodes);
       }
       const parsedCodes = JSON.parse(codes);
-      if (parsedCodes.length > 5) setValidCodes(JSON.parse(codes));
+      if (parsedCodes?.length > 5) setValidCodes(JSON.parse(codes));
       else {
         localStorage.setItem('validCodes', JSON.stringify(tempValidCodes))
         setValidCodes(tempValidCodes);

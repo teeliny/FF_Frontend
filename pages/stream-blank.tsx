@@ -24,7 +24,7 @@ const StreamBlank = () => {
 
   return (
     <Layout title="Marketing AR - Stream">
-      <div className='reality-background h-full' style={{ backgroundImage: "url('/images/svg/reality-one.svg'), url('/images/svg/reality-three.svg'), url('/images/svg/reality-two.svg')" }}>
+      <div className='reality-background h-full' style={{ background: '#000000' }}>
         {userEnv && (
           <video 
             ref={videoRef} 
