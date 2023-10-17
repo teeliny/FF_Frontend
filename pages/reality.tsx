@@ -1,10 +1,9 @@
 import { Fragment, MouseEvent, SyntheticEvent, useRef, useState } from 'react';
 import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Swiper as SwiperType } from 'swiper/types';
 import { Layout, Modal, DetailsForm } from '../components';
 import { realityList } from '../utils';
-import 'swiper/css';
+import 'swiper/css/bundle';
 import 'swiper/css/scrollbar';
 
 const RealityPage = () => {
@@ -63,21 +62,17 @@ const RealityPage = () => {
               )}
             </div>
           </div>
+
           {currTime >= 15 && (
-            <div className='flex flex-col mx-6 mt-6'>
-              <Swiper
-                spaceBetween={8}
-                slidesPerView='auto'
-                loop
-                className={`w-full`}
-              >
+            <div className='flex flex-col mx-6 mt-6 mb-4'>
+              <div className='w-full' style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 200px)', overflow: 'scroll' }}>
                 {realityList.map((wish) => (
-                  <SwiperSlide key={wish.id} className='!mr-0 !w-48 !flex flex-col gap-2 items-center' onClick={() => slideChangeHandler(wish.id)}>
-                    <Image src={wish.img} width={10} height={8} alt={`wish-${wish.id}`} className={`w-48 max-h-28 ${currSlide === wish.id ? 'border-2 border-yellow-300' : ''}`} />
-                    <p className='mx-2 text-sm font-semibold text-center text-white'>{wish.description}</p>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
+                    <div key={wish.id} style={{width: '200px'}} className='!mr-0 !flex flex-col gap-2 items-center' onClick={() => slideChangeHandler(wish.id)}>
+                      <Image src={wish.img} width={10} height={8} alt={`wish-${wish.id}`} style={{width: '200px'}} className={`w-48 max-h-28 ${currSlide === wish.id ? 'border-2 border-yellow-300' : ''}`} />
+                      <p className='mx-2 text-sm font-semibold text-center text-white'>{wish.description}</p>
+                    </div>
+                  ))}
+              </div>
               <button
                 style={{color: +currSlide >= 1 ? '#0A3085' : '#1A191999', backgroundColor: +currSlide >= 1 ? '#FFFF00' : '#636463'}}
                 className={`self-center py-3 mt-4 uppercase px-14 w-fit`} 
