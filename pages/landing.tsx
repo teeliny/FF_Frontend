@@ -59,7 +59,10 @@ const LandingPage = () => {
       const isInList = tempValidCodes.includes(promoCode);
       if (!isValid) {
         setCodeError(true);
-        if (isInList) setUsedCode(true);
+        if (isInList) {
+          setUsedCode(true);
+        }
+        setLoading(false);
         return;
       }
       const remainingCodes = [...validCodes];
@@ -85,7 +88,7 @@ const LandingPage = () => {
         setValidCodes(tempValidCodes);
       }
       const parsedCodes = JSON.parse(codes);
-      if (parsedCodes.length > 5) setValidCodes(JSON.parse(codes));
+      if (parsedCodes?.length > 5) setValidCodes(JSON.parse(codes));
       else {
         localStorage.setItem('validCodes', JSON.stringify(tempValidCodes))
         setValidCodes(tempValidCodes);
