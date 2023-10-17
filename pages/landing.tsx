@@ -52,16 +52,19 @@ const LandingPage = () => {
   }
 
   const handleSubmit = (e: MouseEvent) => {
+    setLoading(true);
     e.preventDefault();
     setTimeout(() => {
       const isValid = validCodes.includes(promoCode);
       const isInList = tempValidCodes.includes(promoCode);
       if (!isValid) {
         setCodeError(true);
-        if (isInList) setUsedCode(true);
+        if (isInList) {
+          setUsedCode(true);
+        }
+        setLoading(false);
         return;
       }
-      setLoading(true);
       const remainingCodes = [...validCodes];
       remainingCodes.splice(validCodes.indexOf(promoCode), 1);
       setValidCodes(remainingCodes);
