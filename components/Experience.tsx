@@ -40,7 +40,7 @@ export const Experience = () => {
       {launch && (
         <iframe
           src='https://beertechafrica.8thwall.app/flying-fish/'
-          allow='camera'
+          allow='camera;gyroscope;accelerometer;magnetometer;xr-spatial-tracking;microphone'
           style={{ width: '100vw', height: '100vh'}}
           onLoad={(e) => console.log('AR launch successfully')}
         />

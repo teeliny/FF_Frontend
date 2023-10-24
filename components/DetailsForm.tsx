@@ -80,18 +80,20 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
       formData.append('auth_key', sabaAuthKey);
       formData.append('code', promoCode);
       formData.append('msisdn', msisdn);
-      const retrievePossibleGift = await axios.post(`${sabaApi}/submit_code`, formData);
+      const retrievePossibleGift = await axios.post(`${sabaApi}/submit_paw`, formData);
       if (retrievePossibleGift.data.success) {
-        if (retrievePossibleGift.data.prize) {
-          localStorage.setItem('gift', retrievePossibleGift.data.prize);
+        if (retrievePossibleGift.data.message) {
+          localStorage.setItem('gift', retrievePossibleGift.data.message['Prize Name']);
           payload.gift = retrievePossibleGift.data.prize;
         }
 
-        const response = await axios.post(`${apiUrl}/verify/addUser`, payload);
-        if (response.status === 200) {
-          // console.log(response.data.isSuccess, 'form submitted successfully');
-          router.push('/stream');
-        }
+        // delete next line once the backend is up and uncomment next block
+        router.push('/stream-demo');
+        // const response = await axios.post(`${apiUrl}/verify/addUser`, payload);
+        // if (response.data?.isSuccess) {
+        //   // console.log(response.data.isSuccess, 'form submitted successfully');
+        //   router.push('/stream');
+        // }
       }
     } catch (error) {
       console.log(error);
@@ -174,7 +176,7 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
             onChange={(e) => handleFormChange('first_name', e.target.value)}
           />
           {formError.first_name && (
-            <p className='font-semibold text-xs mt-2' style={{color: '#FFACAC'}}>{formError.first_name}</p>
+            <p className='mt-2 text-xs font-semibold' style={{color: '#FFACAC'}}>{formError.first_name}</p>
           )}
         </div>
 
@@ -202,7 +204,7 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
             onChange={(e) => handleFormChange('last_name', e.target.value)}
           />
           {formError.last_name && (
-            <p className='font-semibold text-xs mt-2' style={{color: '#FFACAC'}}>{formError.last_name}</p>
+            <p className='mt-2 text-xs font-semibold' style={{color: '#FFACAC'}}>{formError.last_name}</p>
           )}
         </div>
 
@@ -230,7 +232,7 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
             onChange={(e) => handleFormChange('phone_number', e.target.value)}
           />
           {formError.phone_number && (
-            <p className='font-semibold text-xs mt-2' style={{color: '#FFACAC'}}>{formError.phone_number}</p>
+            <p className='mt-2 text-xs font-semibold' style={{color: '#FFACAC'}}>{formError.phone_number}</p>
           )}
         </div>
 
@@ -263,15 +265,15 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
           </RadioGroup>
         </div>
         
-        <div className='mt-8 w-full mb-4'>
+        <div className='w-full mt-8 mb-4'>
           <button 
             style={{color: !isComplete ? '#1A191999' : '#0A3085', backgroundColor: !isComplete ? '#636463' : '#FFFF00'}} 
             className={`py-3 uppercase px-8 w-full text-xl`} 
-            onClick={!loading ? submitHandler : undefined}
+            onClick={!loading ? submitHandlerToSaba : undefined}
           >
             {loading ? <Loader /> : 'Submit my Flying Wish!'}
           </button>
-          {errMsg && ( <p style={{color: '#FFACAC'}} className='font-semibold text-xs text-center mt-1'>&#9888; {errMsg}</p>)}
+          {errMsg && ( <p style={{color: '#FFACAC'}} className='mt-1 text-xs font-semibold text-center'>&#9888; {errMsg}</p>)}
         </div>
       </form>
     </div>

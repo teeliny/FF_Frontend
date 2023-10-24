@@ -29,10 +29,10 @@ const StreamDemo = () => {
 
   return (
     <Layout title="Marketing AR - Stream">
-      <div className='reality-background h-full' style={{ backgroundImage: "url('/images/svg/reality-one.svg'), url('/images/svg/reality-three.svg'), url('/images/svg/reality-two.svg')" }}>
+      <div className='h-full reality-background' style={{ backgroundImage: "url('/images/svg/reality-one.svg'), url('/images/svg/reality-three.svg'), url('/images/svg/reality-two.svg')" }}>
         <iframe 
           ref={videoRef}
-          allow='camera;autoplay'
+          allow='camera;gyroscope;accelerometer;magnetometer;xr-spatial-tracking;microphone'
           src={'https://beertechafrica.8thwall.app/dialogue2'} 
           style={{ height: '100vh', width: '100vw'}}
           onLoad={() => {
@@ -41,7 +41,7 @@ const StreamDemo = () => {
         />
 
         {/* {currTime > 8 && (
-          <div className='w-full absolute bottom-4 justify-center flex'>
+          <div className='absolute flex justify-center w-full bottom-4'>
             <button 
               style={{color: '#0A3085', backgroundColor: '#FFFF00'}} 
               className={`py-3 uppercase px-8 w-fit text-xl`} 

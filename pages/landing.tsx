@@ -33,8 +33,8 @@ const LandingPage = () => {
       const formData = new FormData();
       formData.append('auth_key', sabaAuthKey);
       formData.append('code', promoCode);
-      formData.append('msisdn', '2348088177888');
       const sendCode = await axios.post(`${sabaApi}/submit_code`, formData);
+      console.log(sendCode)
       if (sendCode.data.success) {
         localStorage.setItem('promo', promoCode);
         router.push('/scan');
@@ -123,16 +123,16 @@ const LandingPage = () => {
                 onChange={handleCodeChange}
               />
               {codeError && (
-                // <p style={{color: '#FFACAC'}} className='font-semibold text-xs'>&#9888; {errMsg}</p>
-                <p style={{color: '#FFACAC'}} className='font-semibold text-xs'> &#9888; {usedCode ? 'You entered a used code' : 'You entered an invalid code'}</p>
+                <p style={{color: '#FFACAC'}} className='text-xs font-semibold'>&#9888; {errMsg}</p>
+                // <p style={{color: '#FFACAC'}} className='text-xs font-semibold'> &#9888; {usedCode ? 'You entered a used code' : 'You entered an invalid code'}</p>
               )}
             </div>
             <button 
               className={`w-fit mx-auto px-12 uppercase py-3`}
-              style={{color: promoCode.length === 9 && !codeError ? '#0A3085' : '#1A191999', backgroundColor: promoCode.length === 9 && !codeError ? '#FFFF00' : '#636463'}}
+              style={{color: (promoCode.length >= 8 && promoCode.length <= 9) && !codeError ? '#0A3085' : '#1A191999', backgroundColor: (promoCode.length >= 8 && promoCode.length <= 9) && !codeError ? '#FFFF00' : '#636463'}}
               type='submit' 
-              onClick={!loading ? handleSubmit : undefined} 
-              disabled={promoCode.length !== 9 || codeError}
+              onClick={!loading ? handleSubmitToSaba : undefined} 
+              disabled={promoCode.length < 8 || promoCode.length > 9 || codeError}
             >
               {loading ? <Loader /> : 'verify'}
             </button>
@@ -145,12 +145,12 @@ const LandingPage = () => {
           height={8} 
           alt='logo'
           style={{width: '100%'}}
-          className='mt-auto mx-auto'
+          className='mx-auto mt-auto'
         />
         
         <div className={`absolute bottom-4 w-full px-8`}>
-          <p className='text-center text-xs leading-relaxed text-white font-semibold'>
-            <Link className='font-bold cursor-pointer underline' href='/terms'>Promo Terms and Conditions</Link>
+          <p className='text-xs font-semibold leading-relaxed text-center text-white'>
+            <Link className='font-bold underline cursor-pointer' href='/terms'>Promo Terms and Conditions</Link>
           </p>
         </div>
       </div>
