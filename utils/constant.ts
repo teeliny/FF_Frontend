@@ -20,6 +20,8 @@ export const defaultError: {[key: string]: string | null} = {
 
 export const animatedComponents = makeAnimated();
 
+export const localArUrl = 'https://beertechafrica.8thwall.app';
+
 export const tempValidCodes = [
   '123456789',
   '234567890',

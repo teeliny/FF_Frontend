@@ -3,9 +3,23 @@
 @tailwind components;
 /* purgecss end ignore */
 @tailwind utilities;
+@layer base {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+}
+
+.main {
+  @apply bg-zinc-300;
+}
 
 .layout {
-  @apply w-screen overflow-x-hidden overflow-y-scroll min-h-screen;
+  @apply w-screen min-h-screen overflow-x-hidden overflow-y-scroll sm:max-w-screen-sm sm:mx-auto;
 }
 
 .background {

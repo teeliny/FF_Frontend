@@ -14,8 +14,8 @@ const Stream = () => {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const wishId = localStorage.getItem('wishId');
-      const gift = localStorage.getItem('gift');
+      const wishId = window.top.localStorage.getItem('wishId');
+      const gift = window.top.localStorage.getItem('gift');
       if (!gift) setUserEnv(envWithOutGift[wishId]);
       else {
         setUserEnv(envWithGift[wishId]);

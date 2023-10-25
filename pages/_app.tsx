@@ -35,7 +35,7 @@ import '../styles/index.css'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <main className={`${gilroy.variable} ui-sans-serif`}>
+    <main className={`${gilroy.variable} ui-sans-serif main`}>
       <Component {...pageProps} />
     </main>
   )

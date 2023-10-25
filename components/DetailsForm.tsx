@@ -10,7 +10,8 @@ import {
   countryStyles, 
   wishStyles, 
   ICountryOption, 
-  wishList
+  wishList,
+  localArUrl
 } from '../utils';
 import { Radio, RadioGroup } from 'react-radio-group';
 import Image from 'next/image';
@@ -24,7 +25,13 @@ const CountryFlag = ({code}: {code: string}) => (
   </div>
 );
 
-export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
+interface IDetailsForm {
+  wish_id: string; 
+  close?: () => void;
+  experienceFrame?: HTMLIFrameElement | null;
+}
+
+export const DetailsForm: FC<IDetailsForm> = ({ wish_id, close, experienceFrame }) => {
   const router = useRouter();
   const sabaAuthKey = process.env.NEXT_PUBLIC_SABA_AUTH_KEY ?? '';
   const sabaApi = process.env.NEXT_PUBLIC_SABA_API ?? '';
@@ -54,7 +61,7 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
     try {
       e.preventDefault();
       setLoading(true);
-      const promoCode = localStorage.getItem('promo');
+      const promoCode = window.top.localStorage.getItem('promo');
       if (!promoCode) {
         setErrMsg('Promo code not found');
         return;
@@ -83,12 +90,15 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
       const retrievePossibleGift = await axios.post(`${sabaApi}/submit_paw`, formData);
       if (retrievePossibleGift.data.success) {
         if (retrievePossibleGift.data.message) {
-          localStorage.setItem('gift', retrievePossibleGift.data.message['Prize Name']);
+          window.top.localStorage.setItem('gift', retrievePossibleGift.data.message['Prize Name']);
           payload.gift = retrievePossibleGift.data.prize;
         }
 
         // delete next line once the backend is up and uncomment next block
-        router.push('/stream-demo');
+        window.top.localStorage.setItem('wishId', wish.id);
+        sendMessageToIframe(promoCode, payload.gift);
+        close?.();
+        // router.push('/stream-demo');
         // const response = await axios.post(`${apiUrl}/verify/addUser`, payload);
         // if (response.data?.isSuccess) {
         //   // console.log(response.data.isSuccess, 'form submitted successfully');
@@ -107,9 +117,9 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
     e.preventDefault();
     setLoading(true);
     setTimeout(() => {
-      const promoCode = localStorage.getItem('promo') || '';
-      const giftWon = localStorage.getItem('gift');
-      localStorage.setItem('wishId', wish.id);
+      const promoCode = window.top.localStorage.getItem('promo') || '';
+      const giftWon = window.top.localStorage.getItem('gift');
+      window.top.localStorage.setItem('wishId', wish.id);
       const payload = {
         firstname: formState.first_name,
         lastname: formState.last_name,
@@ -122,12 +132,22 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
       }
       console.log(payload);
       setLoading(false);
-      router.push('/stream-demo');
+      sendMessageToIframe(promoCode, giftWon);
+      close?.();
+      // router.push('/stream-demo');
       // const response = await axios.post(`${apiUrl}/verify/addUser`, payload);
       // if (response.status === 200) {
       //   console.log(response.data.isSuccess, 'form submitted successfully');
       // }
     }, 1000);
+  };
+
+  const sendMessageToIframe = (promoCode: string, giftWon: string | null) => {
+    if (experienceFrame) {
+      const message = {wish: wish.name, promoCode, gift: (giftWon && giftWon.length ? true : false)};
+      const targetOrigin = process.env.NEXT_PUBLIC_AR_BASE_URL || localArUrl;;
+      experienceFrame.contentWindow.postMessage(message, targetOrigin);
+    }
   };
 
   // Track form completions to enable button
@@ -137,7 +157,6 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
     else setIsComplete(false);
   }, [formState]);
 
-  console.log(formState)
   return (
     <div className='flex flex-col' style={{ height: 'calc(100vh - 4.5rem)', overflowY: 'scroll', scrollbarWidth: 'none'}}>
       {wish && (

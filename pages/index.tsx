@@ -21,7 +21,7 @@ const IndexPage = () => {
     setDragPosition({x: frame.right, y: 0});
   }
   const handleBelowLimit = () => {
-    localStorage.setItem('gate', '0');
+    window.top.localStorage.setItem('gate', '0');
     setBelowLimit(true);
   }
 
@@ -39,7 +39,7 @@ const IndexPage = () => {
 
   useEffect(() => {
     if (withinLimit) {
-      localStorage.setItem('gate', '1');
+      window.top.localStorage.setItem('gate', '1');
       setTimeout(() => {
         router.push('/landing');
       }, 1000);
@@ -60,7 +60,7 @@ const IndexPage = () => {
             <Image src="/images/svg/smoke.svg" width={10} height={8} alt='smoke' className='w-full' />
             <Image src="/images/svg/logo.svg" width={10} height={8} alt='logo' className='absolute -translate-x-1/2 -translate-y-1/2 w-fit top-1/2 left-1/2' />
           </div>
-          <div className='flex flex-col items-center w-full px-8 mb-20'>
+          <div className='flex flex-col items-center w-full px-8 mb-28'>
             <h2 className='mx-8 text-2xl font-bold text-center text-yellow-300 uppercase'>{belowLimit ? 'You must be of legal drinking age to enter this experience' : "Slide if you're 18 years or over"}</h2>
             {!belowLimit && (
               <Fragment>
@@ -68,7 +68,7 @@ const IndexPage = () => {
                   <div
                     ref={dragRef}
                     style={{ background: 'rgba(10, 48, 133, 0.5)', borderRadius: '40px'}}
-                    className='relative w-full h-full bg-red-300 flex items-center justify-center cursor-pointer'
+                    className='relative flex items-center justify-center w-full h-full bg-red-300 cursor-pointer'
                   >
                     <input
                       type="checkbox"
@@ -77,7 +77,7 @@ const IndexPage = () => {
                       onChange={handleSwitchChange}
                       className='hidden'
                     />
-                    <label htmlFor="toggle" className="text-xl font-medium text-yellow-300 w-full text-center">{withinLimit ? "I'm 18 years +" : 'Slide here'}</label>
+                    <label htmlFor="toggle" className="w-full text-xl font-medium text-center text-yellow-300">{withinLimit ? "I'm 18 years +" : 'Slide here'}</label>
                   </div>
 
                   <div 
@@ -86,7 +86,7 @@ const IndexPage = () => {
                       top: '50%', transform: 'translateY(-50%)',
                       left: '0',
                     }} 
-                    className='px-2 flex justify-center items-center'
+                    className='flex items-center justify-center px-2'
                   >
                     <Draggable axis='x' bounds={frame} ref={childRef} onStop={handleStopDrag} position={dragPosition}>
                       <div 
@@ -104,7 +104,7 @@ const IndexPage = () => {
                   </div>
                 </div>
                 <p 
-                  className='font-bold text-white underline cursor-pointer' 
+                  className='font-bold text-center text-white underline cursor-pointer' 
                   onClick={handleBelowLimit}
                 >
                   Tap here if you&#39;re under 18
@@ -114,7 +114,7 @@ const IndexPage = () => {
           </div>
 
           <div className='absolute bottom-0 w-full px-8 mb-6'>
-            <p className='text-center text-xs leading-relaxed' style={{color: '#0A3085'}}>
+            <p className='text-xs leading-relaxed text-center' style={{color: '#0A3085'}}>
               By continuing on this site, you agree to our <Link className='font-bold cursor-pointer' href='/terms'>Terms of Service</Link> and <Link className='font-bold cursor-pointer' href='/privacy'>Privacy Policy</Link>
             </p>
           </div>

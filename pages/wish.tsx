@@ -1,4 +1,4 @@
-import { FC, Fragment, MouseEvent, useState } from 'react';
+import { FC, Fragment, MouseEvent, useState, useEffect } from 'react';
 import Image from 'next/image';
 import { DetailsForm, Layout, Modal } from '../components';
 import { wishList } from '../utils';
@@ -17,7 +17,12 @@ export const WishSelection: FC = () => {
       setSubmitWishModal(true);
     }
   };
-
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const promoCode = window.top.localStorage.getItem('promo') || '';
+      console.log(promoCode)
+    }
+  }, [])
   return (
     <Layout title="Marketing AR - Select your wish">
       <Fragment>
@@ -39,13 +44,13 @@ export const WishSelection: FC = () => {
                 >
                   <Image width={100} height={100} src={option.img} alt={''} />
                   <div>
-                    <p style={{ width: 'calc(100% - 8px)', whiteSpace: 'normal'}} className='text-base italic font-semibold text-white leading-6'>{option.description}</p>
+                    <p style={{ width: 'calc(100% - 8px)', whiteSpace: 'normal'}} className='text-base italic font-semibold leading-6 text-white'>{option.description}</p>
                   </div>
                 </div>
               ))}
             </div>
 
-            <div className='fixed bottom-8 left-1/2 -translate-x-1/2'>
+            <div className='fixed -translate-x-1/2 bottom-8 left-1/2'>
               <button 
                 className={`py-3 mt-4 uppercase px-14`}
                 style={{color: wishId ? '#0A3085' : '#1A191999', backgroundColor: wishId ? '#FFFF00' : '#636463'}} 

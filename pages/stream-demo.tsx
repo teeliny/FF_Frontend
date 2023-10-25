@@ -32,7 +32,7 @@ const StreamDemo = () => {
       <div className='h-full reality-background' style={{ backgroundImage: "url('/images/svg/reality-one.svg'), url('/images/svg/reality-three.svg'), url('/images/svg/reality-two.svg')" }}>
         <iframe 
           ref={videoRef}
-          allow='camera;gyroscope;accelerometer;magnetometer;xr-spatial-tracking;microphone'
+          allow='camera;gyroscope;accelerometer;magnetometer;xr-spatial-tracking;microphone;'
           src={'https://beertechafrica.8thwall.app/dialogue2'} 
           style={{ height: '100vh', width: '100vw'}}
           onLoad={() => {

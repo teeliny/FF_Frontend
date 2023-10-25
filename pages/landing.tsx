@@ -22,6 +22,7 @@ const LandingPage = () => {
     if (codeError) {
       setUsedCode(false);
       setCodeError(null);
+      setErrMsg(null);
     }
     setPromoCode(e.target.value);
   }
@@ -36,7 +37,7 @@ const LandingPage = () => {
       const sendCode = await axios.post(`${sabaApi}/submit_code`, formData);
       console.log(sendCode)
       if (sendCode.data.success) {
-        localStorage.setItem('promo', promoCode);
+        window.top.localStorage.setItem('promo', promoCode);
         router.push('/scan');
       } else {
         setCodeError(true);
@@ -68,12 +69,13 @@ const LandingPage = () => {
       const remainingCodes = [...validCodes];
       remainingCodes.splice(validCodes.indexOf(promoCode), 1);
       setValidCodes(remainingCodes);
-      localStorage.setItem('validCodes', JSON.stringify(remainingCodes));
+      window.top.localStorage.setItem('validCodes', JSON.stringify(remainingCodes));
       const giftList = Object.keys(tempGiftBucket);
       const randomIndex = Math.floor(Math.random() * giftList.length + 3)
       const gift = randomIndex < giftList.length ? giftList[randomIndex] : null;
-      localStorage.setItem('promo', promoCode);
-      if (gift) localStorage.setItem('gift', gift);
+      window.top.localStorage.setItem('promo', promoCode);
+      console.log(promoCode);
+      if (gift) window.top.localStorage.setItem('gift', gift);
       setLoading(false);
       router.push('/scan');
       
@@ -82,15 +84,15 @@ const LandingPage = () => {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const codes = localStorage.getItem('validCodes');
+      const codes = window.top.localStorage.getItem('validCodes');
       if (!codes) {
-        localStorage.setItem('validCodes', JSON.stringify(tempValidCodes));
+        window.top.localStorage.setItem('validCodes', JSON.stringify(tempValidCodes));
         setValidCodes(tempValidCodes);
       }
       const parsedCodes = JSON.parse(codes);
       if (parsedCodes?.length > 5) setValidCodes(JSON.parse(codes));
       else {
-        localStorage.setItem('validCodes', JSON.stringify(tempValidCodes))
+        window.top.localStorage.setItem('validCodes', JSON.stringify(tempValidCodes))
         setValidCodes(tempValidCodes);
       }
     } else setValidCodes(tempValidCodes);
