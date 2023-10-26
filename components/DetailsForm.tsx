@@ -97,8 +97,8 @@ export const DetailsForm: FC<IDetailsForm> = ({ wish_id, close, experienceFrame 
         // delete next line once the backend is up and uncomment next block
         window.top.localStorage.setItem('wishId', wish.id);
         sendMessageToIframe(promoCode, payload.gift);
-        close?.();
-        // router.push('/stream-demo');
+        // close?.();
+        router.push('/stream-demo');
         // const response = await axios.post(`${apiUrl}/verify/addUser`, payload);
         // if (response.data?.isSuccess) {
         //   // console.log(response.data.isSuccess, 'form submitted successfully');
@@ -145,7 +145,7 @@ export const DetailsForm: FC<IDetailsForm> = ({ wish_id, close, experienceFrame 
   const sendMessageToIframe = (promoCode: string, giftWon: string | null) => {
     if (experienceFrame) {
       const message = {wish: wish.name, promoCode, gift: (giftWon && giftWon.length ? true : false)};
-      const targetOrigin = process.env.NEXT_PUBLIC_AR_BASE_URL || localArUrl;;
+      const targetOrigin = process.env.NEXT_PUBLIC_AR_BASE_URL || localArUrl;
       experienceFrame.contentWindow.postMessage(message, targetOrigin);
     }
   };
