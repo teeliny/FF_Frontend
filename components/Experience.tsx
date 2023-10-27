@@ -10,7 +10,6 @@ export const Experience = () => {
   const router = useRouter();
   const frameRef = useRef<HTMLIFrameElement>(null);
   const [launch, setLaunch] = useState(false);
-  // const [firstDialogEnded, setFirstDialogEnded] = useState(false);
   const [currSlide, setCurrSlide] = useState<string | null>(null);
   const [submitWishModal, setSubmitWishModal] = useState(false);
   const [realityMode, setRealityMode] = useState(true);
@@ -72,35 +71,39 @@ export const Experience = () => {
         <Fragment>
           <div 
             className='reality-background' 
-            style={!realityMode ? { backgroundImage: "url('/images/svg/reality-one.svg'), url('/images/svg/reality-three.svg'), url('/images/svg/reality-two.svg')" } : {background: '#000000'}}
+            style={{background: '#000000'}}
           >
-            <div className='relative w-full'>
+            <div className='w-full'>
               <iframe
                 ref={frameRef}
                 id='frame'
                 src='https://beertechafrica.8thwall.app/flying-fish/'
                 allow='camera;gyroscope;accelerometer;magnetometer;xr-spatial-tracking;microphone'
-                style={{ height: `${realityMode ? '100vh' : '65vh'}`, width: '100vw'}}
+                style={{ height: '100vh', width: '100vw'}}
                 onLoad={(e) => console.log('AR launch successfully')}
               />
             </div>
 
-            {!realityMode && (
-            <div className='flex flex-col mx-6 mt-6 mb-4'>
-              <div className='w-full' style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 200px)', overflow: 'scroll' }}>
-                {realityList.map((wish) => (
-                    <div key={wish.id} style={{width: '200px'}} className='!mr-0 !flex flex-col gap-2 items-center' onClick={() => slideChangeHandler(wish.id)}>
-                      <Image src={wish.img} width={10} height={8} alt={`wish-${wish.id}`} style={{width: '200px'}} className={`w-48 max-h-28 ${currSlide === wish.id ? 'border-2 border-yellow-300' : ''}`} />
-                      <p className='mx-2 text-sm font-semibold text-center text-white'>{wish.description}</p>
-                    </div>
-                  ))}
+            {!realityMode && !submitWishModal && (
+              <div className='fixed bottom-0 left-0 flex flex-col w-full pb-4 mt-6' style={{ background: "rgba(10, 48, 133, 0.70)" }}>
+                <div className='w-full' style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 200px)', overflow: 'scroll' }}>
+                  {realityList.map((wish) => (
+                      <div key={wish.id} style={{width: '200px'}} className='!mr-0 !flex flex-col gap-2 items-center' onClick={() => slideChangeHandler(wish.id)}>
+                        <Image src={wish.img} width={10} height={8} alt={`wish-${wish.id}`} style={{width: '200px'}} className={`w-48 max-h-28 ${currSlide === wish.id ? 'border-2 border-yellow-300' : ''}`} />
+                        <p className='mx-2 text-sm font-semibold text-center text-white'>{wish.description}</p>
+                      </div>
+                    ))}
+                </div>
+                <button
+                  style={{color: +currSlide >= 1 ? '#0A3085' : '#1A191999', backgroundColor: +currSlide >= 1 ? '#FFFF00' : '#636463'}}
+                  className={`self-center py-3 mt-4 uppercase px-14 w-fit`} 
+                  onClick={submitWishHandler} 
+                  disabled={+currSlide < 1}
+                >
+                  make my wish
+                </button>
               </div>
-              <button
-                style={{color: +currSlide >= 1 ? '#0A3085' : '#1A191999', backgroundColor: +currSlide >= 1 ? '#FFFF00' : '#636463'}}
-                className={`self-center py-3 mt-4 uppercase px-14 w-fit`} 
-                onClick={submitWishHandler} disabled={+currSlide < 1}>make my wish</button>
-            </div>
-          )}
+            )}
           </div>
 
           {submitWishModal && currSlide && (

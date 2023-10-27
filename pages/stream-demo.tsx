@@ -29,7 +29,7 @@ const StreamDemo = () => {
 
   return (
     <Layout title="Marketing AR - Stream">
-      <div className='h-full reality-background' style={{ backgroundImage: "url('/images/svg/reality-one.svg'), url('/images/svg/reality-three.svg'), url('/images/svg/reality-two.svg')" }}>
+      <div className='h-full reality-background' style={{ backgroundColor: "#000000" }}>
         <iframe 
           ref={videoRef}
           allow='camera;gyroscope;accelerometer;magnetometer;xr-spatial-tracking;microphone;'
