@@ -449,9 +449,9 @@ const TermsPage = () => {
                 and holds harmless the Promoter from and against any and all claims, actions, legal 
                 proceedings, losses, damages and expenses (including attorney's fees and expenses) arising 
                 as a result of or in connection with any actual or alleged infringement of any intellectual 
-                property rights of a third party arising from entry in the Competition and/or the Promoter’s 
+                property rights of a third party arising from entry in the Competition and/or the Promoter&#39;s 
                 use of any content, including without limitation any pictures, videos, drawings or other 
-                creative works, created pursuant to the Participant’s entry in the Competition.
+                creative works, created pursuant to the Participant&#39;s entry in the Competition.
               </span>
             </li>
             <li className="mb-2 text-xs font-normal">
@@ -472,7 +472,7 @@ const TermsPage = () => {
             <li className="mb-2 text-xs font-normal">
               <span>8.4 </span>
               <span>
-                In the event of a dispute, the Promoter’s decision is final, and binding and no correspondence will be entered into.
+                In the event of a dispute, the Promoter&#39;s decision is final, and binding and no correspondence will be entered into.
               </span>
             </li>
             <li className="mb-2 text-xs font-normal">
@@ -492,7 +492,7 @@ const TermsPage = () => {
                 <li className="mb-2">
                   <span>8.6.1 </span>
                   <span>
-                    the Promoter processing the Participant’s personal information, including in the form 
+                    the Promoter processing the Participant&#39;s personal information, including in the form 
                     of names, telephone numbers, identity numbers and/or email addresses, during and 
                     after the course and scope of the Competition; and
                   </span>
@@ -500,7 +500,7 @@ const TermsPage = () => {
                 <li className="mb-2">
                   <span>8.6.2 </span>
                   <span>
-                    the Promoter transferring the winning Participant’s personal information, including 
+                    the Promoter transferring the winning Participant&#39;s personal information, including 
                     names, telephone numbers, identity numbers and/or email addresses, to the relevant 
                     third parties in order to make any required travel, delivery or other arrangements, as 
                     may be applicable, during the course and scope of the Competition for utilisation of a 
@@ -534,7 +534,7 @@ const TermsPage = () => {
                 <li className="mb-2">
                   <span>8.8.1 </span>
                   <span>
-                    correct or delete personal information about the Participant in the Promoter’s 
+                    correct or delete personal information about the Participant in the Promoter&#39;s 
                     possession or under its control that is inaccurate, irrelevant, excessive, out of date, 
                     incomplete, misleading or obtained unlawfully; or
                   </span>
@@ -561,9 +561,9 @@ const TermsPage = () => {
             <li className="mb-2 text-xs font-normal">
               <span>8.10 </span>
               <span>
-                Should a Prize not be available despite the Promoter’s reasonable endeavours to procure a 
+                Should a Prize not be available despite the Promoter&#39;s reasonable endeavours to procure a 
                 Prize, the Promoter reserves the right to substitute a Prize with another of equal value as 
-                determined in the Promoter’s sole discretion and subject to availability. No person will be 
+                determined in the Promoter&#39;s sole discretion and subject to availability. No person will be 
                 entitled to be compensated in any way in this instance by the Promoter.
               </span>
             </li>
