@@ -14,7 +14,7 @@ export const Layout = ({ children, title = 'Marketing AR' }: Props) => {
   const router = useRouter();
   const routeNav = navRouter();
   if (typeof window !== 'undefined') {
-    const gate = localStorage.getItem('gate') as string;
+    const gate = window.top.localStorage.getItem('gate') as string;
     if (!gateCheck(router.pathname, gate)) {
       routeNav.push('/');
     }

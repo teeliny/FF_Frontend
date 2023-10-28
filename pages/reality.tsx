@@ -1,6 +1,6 @@
 import { Fragment, MouseEvent, SyntheticEvent, useRef, useState } from 'react';
 import Image from 'next/image';
-import { Swiper, SwiperSlide } from 'swiper/react';
+// import { Swiper, SwiperSlide } from 'swiper/react';
 import { Layout, Modal, DetailsForm } from '../components';
 import { realityList } from '../utils';
 import 'swiper/css/bundle';

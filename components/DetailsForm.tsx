@@ -10,7 +10,8 @@ import {
   countryStyles, 
   wishStyles, 
   ICountryOption, 
-  wishList
+  wishList,
+  localArUrl
 } from '../utils';
 import { Radio, RadioGroup } from 'react-radio-group';
 import Image from 'next/image';
@@ -24,7 +25,13 @@ const CountryFlag = ({code}: {code: string}) => (
   </div>
 );
 
-export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
+interface IDetailsForm {
+  wish_id: string; 
+  close?: () => void;
+  experienceFrame?: HTMLIFrameElement | null;
+}
+
+export const DetailsForm: FC<IDetailsForm> = ({ wish_id, close, experienceFrame }) => {
   const router = useRouter();
   const sabaAuthKey = process.env.NEXT_PUBLIC_SABA_AUTH_KEY ?? '';
   const sabaApi = process.env.NEXT_PUBLIC_SABA_API ?? '';
@@ -54,7 +61,7 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
     try {
       e.preventDefault();
       setLoading(true);
-      const promoCode = localStorage.getItem('promo');
+      const promoCode = window.top.localStorage.getItem('promo');
       if (!promoCode) {
         setErrMsg('Promo code not found');
         return;
@@ -80,21 +87,26 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
       formData.append('auth_key', sabaAuthKey);
       formData.append('code', promoCode);
       formData.append('msisdn', msisdn);
-      const retrievePossibleGift = await axios.post(`${sabaApi}/submit_code`, formData);
+      const retrievePossibleGift = await axios.post(`${sabaApi}/submit_paw`, formData);
       if (retrievePossibleGift.data.success) {
-        if (retrievePossibleGift.data.prize) {
-          localStorage.setItem('gift', retrievePossibleGift.data.prize);
+        if (retrievePossibleGift.data.message) {
+          window.top.localStorage.setItem('gift', retrievePossibleGift.data.message['Prize Name']);
           payload.gift = retrievePossibleGift.data.prize;
         }
 
-        const response = await axios.post(`${apiUrl}/verify/addUser`, payload);
-        if (response.status === 200) {
-          // console.log(response.data.isSuccess, 'form submitted successfully');
-          router.push('/stream');
-        }
+        // delete next line once the backend is up and uncomment next block
+        window.top.localStorage.setItem('wishId', wish.id);
+        sendMessageToIframe(promoCode, payload.gift);
+        close?.();
+        // router.push('/stream-demo');
+        // const response = await axios.post(`${apiUrl}/verify/addUser`, payload);
+        // if (response.data?.isSuccess) {
+        //   // console.log(response.data.isSuccess, 'form submitted successfully');
+        //   router.push('/stream');
+        // }
       }
     } catch (error) {
-      console.log(error);
+      console.log(error, ">>>>>>>>>>>>>>>>>>>>>");
       setErrMsg('Something went wrong!!!')
     } finally {
       setLoading(false);
@@ -105,9 +117,9 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
     e.preventDefault();
     setLoading(true);
     setTimeout(() => {
-      const promoCode = localStorage.getItem('promo') || '';
-      const giftWon = localStorage.getItem('gift');
-      localStorage.setItem('wishId', wish.id);
+      const promoCode = window.top.localStorage.getItem('promo') || '';
+      const giftWon = window.top.localStorage.getItem('gift');
+      window.top.localStorage.setItem('wishId', wish.id);
       const payload = {
         firstname: formState.first_name,
         lastname: formState.last_name,
@@ -120,12 +132,24 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
       }
       console.log(payload);
       setLoading(false);
-      router.push('/stream');
+      sendMessageToIframe(promoCode, giftWon);
+      close?.();
+      // router.push('/stream-demo');
       // const response = await axios.post(`${apiUrl}/verify/addUser`, payload);
       // if (response.status === 200) {
       //   console.log(response.data.isSuccess, 'form submitted successfully');
       // }
     }, 1000);
+  };
+
+  const sendMessageToIframe = (promoCode: string, giftWon: string | null) => {
+    if (experienceFrame) {
+      const message = giftWon && giftWon.length ? `${wish.name.toLowerCase()}Won` : `${wish.name.toLowerCase()}Lose`
+      console.log({message, promoCode, giftWon});
+      // const message = {wish: wish.name, promoCode, gift: (giftWon && giftWon.length ? true : false)};
+      const targetOrigin = process.env.NEXT_PUBLIC_AR_BASE_URL || localArUrl;
+      experienceFrame.contentWindow.postMessage(message, targetOrigin);
+    }
   };
 
   // Track form completions to enable button
@@ -135,7 +159,6 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
     else setIsComplete(false);
   }, [formState]);
 
-  console.log(formState)
   return (
     <div className='flex flex-col' style={{ height: 'calc(100vh - 4.5rem)', overflowY: 'scroll', scrollbarWidth: 'none'}}>
       {wish && (
@@ -174,7 +197,7 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
             onChange={(e) => handleFormChange('first_name', e.target.value)}
           />
           {formError.first_name && (
-            <p className='font-semibold text-xs mt-2' style={{color: '#FFACAC'}}>{formError.first_name}</p>
+            <p className='mt-2 text-xs font-semibold' style={{color: '#FFACAC'}}>{formError.first_name}</p>
           )}
         </div>
 
@@ -202,7 +225,7 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
             onChange={(e) => handleFormChange('last_name', e.target.value)}
           />
           {formError.last_name && (
-            <p className='font-semibold text-xs mt-2' style={{color: '#FFACAC'}}>{formError.last_name}</p>
+            <p className='mt-2 text-xs font-semibold' style={{color: '#FFACAC'}}>{formError.last_name}</p>
           )}
         </div>
 
@@ -230,7 +253,7 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
             onChange={(e) => handleFormChange('phone_number', e.target.value)}
           />
           {formError.phone_number && (
-            <p className='font-semibold text-xs mt-2' style={{color: '#FFACAC'}}>{formError.phone_number}</p>
+            <p className='mt-2 text-xs font-semibold' style={{color: '#FFACAC'}}>{formError.phone_number}</p>
           )}
         </div>
 
@@ -263,15 +286,15 @@ export const DetailsForm: FC<{wish_id: string}> = ({ wish_id }) => {
           </RadioGroup>
         </div>
         
-        <div className='mt-8 w-full mb-4 relative'>
+        <div className='w-full mt-8 mb-4'>
           <button 
             style={{color: !isComplete ? '#1A191999' : '#0A3085', backgroundColor: !isComplete ? '#636463' : '#FFFF00'}} 
             className={`py-3 uppercase px-8 w-full text-xl`} 
-            onClick={!loading ? submitHandler : undefined}
+            onClick={!loading ? submitHandlerToSaba : undefined}
           >
             {loading ? <Loader /> : 'Submit my Flying Wish!'}
           </button>
-          {errMsg && ( <p style={{color: '#FFACAC'}} className='font-semibold text-xs text-center mt-1'>&#9888; {errMsg}</p>)}
+          {errMsg && ( <p style={{color: '#FFACAC'}} className='mt-1 text-xs font-semibold text-center'>&#9888; {errMsg}</p>)}
         </div>
       </form>
     </div>

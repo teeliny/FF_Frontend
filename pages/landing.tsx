@@ -22,6 +22,7 @@ const LandingPage = () => {
     if (codeError) {
       setUsedCode(false);
       setCodeError(null);
+      setErrMsg(null);
     }
     setPromoCode(e.target.value);
   }
@@ -33,10 +34,10 @@ const LandingPage = () => {
       const formData = new FormData();
       formData.append('auth_key', sabaAuthKey);
       formData.append('code', promoCode);
-      formData.append('msisdn', '2348088177888');
       const sendCode = await axios.post(`${sabaApi}/submit_code`, formData);
+      console.log(sendCode)
       if (sendCode.data.success) {
-        localStorage.setItem('promo', promoCode);
+        window.top.localStorage.setItem('promo', promoCode);
         router.push('/scan');
       } else {
         setCodeError(true);
@@ -68,12 +69,13 @@ const LandingPage = () => {
       const remainingCodes = [...validCodes];
       remainingCodes.splice(validCodes.indexOf(promoCode), 1);
       setValidCodes(remainingCodes);
-      localStorage.setItem('validCodes', JSON.stringify(remainingCodes));
+      window.top.localStorage.setItem('validCodes', JSON.stringify(remainingCodes));
       const giftList = Object.keys(tempGiftBucket);
       const randomIndex = Math.floor(Math.random() * giftList.length);
       const gift = randomIndex < giftList.length ? giftList[randomIndex] : null;
-      localStorage.setItem('promo', promoCode);
-      if (gift) localStorage.setItem('gift', gift);
+      window.top.localStorage.setItem('promo', promoCode);
+      console.log(promoCode);
+      if (gift) window.top.localStorage.setItem('gift', gift);
       setLoading(false);
       router.push('/scan');
       
@@ -82,15 +84,15 @@ const LandingPage = () => {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const codes = localStorage.getItem('validCodes');
+      const codes = window.top.localStorage.getItem('validCodes');
       if (!codes) {
-        localStorage.setItem('validCodes', JSON.stringify(tempValidCodes));
+        window.top.localStorage.setItem('validCodes', JSON.stringify(tempValidCodes));
         setValidCodes(tempValidCodes);
       }
       const parsedCodes = JSON.parse(codes);
       if (parsedCodes?.length > 5) setValidCodes(JSON.parse(codes));
       else {
-        localStorage.setItem('validCodes', JSON.stringify(tempValidCodes))
+        window.top.localStorage.setItem('validCodes', JSON.stringify(tempValidCodes))
         setValidCodes(tempValidCodes);
       }
     } else setValidCodes(tempValidCodes);
@@ -123,16 +125,16 @@ const LandingPage = () => {
                 onChange={handleCodeChange}
               />
               {codeError && (
-                // <p style={{color: '#FFACAC'}} className='font-semibold text-xs'>&#9888; {errMsg}</p>
-                <p style={{color: '#FFACAC'}} className='font-semibold text-xs'> &#9888; {usedCode ? 'You entered a used code' : 'You entered an invalid code'}</p>
+                <p style={{color: '#FFACAC'}} className='text-xs font-semibold'>&#9888; {errMsg}</p>
+                // <p style={{color: '#FFACAC'}} className='text-xs font-semibold'> &#9888; {usedCode ? 'You entered a used code' : 'You entered an invalid code'}</p>
               )}
             </div>
             <button 
               className={`w-fit mx-auto px-12 uppercase py-3`}
-              style={{color: promoCode.length === 9 && !codeError ? '#0A3085' : '#1A191999', backgroundColor: promoCode.length === 9 && !codeError ? '#FFFF00' : '#636463'}}
+              style={{color: (promoCode.length >= 8 && promoCode.length <= 9) && !codeError ? '#0A3085' : '#1A191999', backgroundColor: (promoCode.length >= 8 && promoCode.length <= 9) && !codeError ? '#FFFF00' : '#636463'}}
               type='submit' 
-              onClick={!loading ? handleSubmit : undefined} 
-              disabled={promoCode.length !== 9 || codeError}
+              onClick={!loading ? handleSubmitToSaba : undefined} 
+              disabled={promoCode.length < 8 || promoCode.length > 9 || codeError}
             >
               {loading ? <Loader /> : 'verify'}
             </button>
@@ -145,12 +147,12 @@ const LandingPage = () => {
           height={8} 
           alt='logo'
           style={{width: '100%'}}
-          className='mt-auto mx-auto'
+          className='mx-auto mt-auto'
         />
         
         <div className={`absolute bottom-4 w-full px-8`}>
-          <p className='text-center text-xs leading-relaxed text-white font-semibold'>
-            <Link className='font-bold cursor-pointer underline' href='/terms'>Promo Terms and Conditions</Link>
+          <p className='text-xs font-semibold leading-relaxed text-center text-white'>
+            <Link className='font-bold underline cursor-pointer' href='/terms'>Promo Terms and Conditions</Link>
           </p>
         </div>
       </div>
