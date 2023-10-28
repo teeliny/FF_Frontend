@@ -145,7 +145,7 @@ export const DetailsForm: FC<IDetailsForm> = ({ wish_id, close, experienceFrame 
   const sendMessageToIframe = (promoCode: string, giftWon: string | null) => {
     if (experienceFrame) {
       // const message = giftWon && giftWon.length ? `${wish.name.toLowerCase()}Won` : `${wish.name.toLowerCase()}Lose`;
-      const message = giftWon?.length ? `${wish.name.toLowerCase()}Won` : `${wish.name.toLowerCase()}Won`;
+      const message = giftWon?.length ? `${wish.name.toLowerCase()}Win` : `${wish.name.toLowerCase()}Win`;
       console.log({message, promoCode, giftWon});
       // const message = {wish: wish.name, promoCode, gift: (giftWon && giftWon.length ? true : false)};
       const targetOrigin = process.env.NEXT_PUBLIC_AR_BASE_URL || localArUrl;
