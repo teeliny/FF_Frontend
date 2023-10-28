@@ -2,7 +2,7 @@
 import { Fragment, MouseEvent, useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { localArUrl, realityList } from '../utils';
+import { localArUrl, realityList, tempGiftBucket } from '../utils';
 import Modal from './Modal';
 import DetailsForm from './DetailsForm';
 
@@ -122,6 +122,13 @@ export const Experience = () => {
           <Modal close={closeSubmitWish}>
             <DetailsForm wish_id={currSlide} close={backToReality} experienceFrame={frameRef.current} />
           </Modal>
+        )}
+
+        {showGift && (
+          <div className='absolute top-24 right-8'>
+            <Image src={tempGiftBucket['R1 000 cash prize']} width={120} height={80} alt='' className='' />
+            {/* <Image src={userGift || tempGiftBucket.cash} width={120} height={80} alt='' className='' /> */}
+          </div>
         )}
       </div>
     </div>

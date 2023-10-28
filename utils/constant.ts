@@ -36,13 +36,14 @@ export const tempValidCodes = [
 ]
 
 export const tempGiftBucket = {
-  airtime: '/images/svg/gifts/airtime.svg',
-  cash: '/images/svg/gifts/cash.svg',
+  'R15 airtime': '/images/svg/gifts/airtime.svg',
+  'R1 000 cash prize': '/images/svg/gifts/cash.svg',
+  'Flying Fish 6-pack': '/images/svg/gifts/drinks.svg',
+  '3 month Spotify voucher': '/images/svg/gifts/music.svg',
+  'R200 UBER/UBER EATS voucher': '/images/svg/gifts/food.svg',
   delivery: '/images/svg/gifts/delivery.svg',
-  drinks: '/images/svg/gifts/drinks.svg',
-  music: '/images/svg/gifts/music.svg',
-  shopping: '/images/svg/gifts/shopping.svg',
   speaker: '/images/svg/gifts/speaker.svg',
+  clothing: '/images/svg/gifts/clothing.svg',
 }
 
 export const envWithGift = {
