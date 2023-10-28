@@ -55,6 +55,7 @@ export const Experience = () => {
         return;
       }
       if (event.data === 'dialogueEnd') {
+        setRealityMode(true);
         router.push('/landing');
       }
     });
