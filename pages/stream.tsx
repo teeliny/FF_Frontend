@@ -26,7 +26,7 @@ const Stream = () => {
 
   return (
     <Layout title="Marketing AR - Stream">
-      <div className='reality-background h-full' style={{ background: '#000000' }}>
+      <div className='h-full reality-background' style={{ background: '#000000' }}>
         {userEnv && (
           <video 
             ref={videoRef} 
@@ -50,30 +50,30 @@ const Stream = () => {
         )}
 
         {currTime > 0 && currTime <= 10.7 && (
-          <div className='absolute -translate-x-1/2 left-1/2 top-1/2 -translate-y-1/4 w-full'>
+          <div className='absolute w-full -translate-x-1/2 left-1/2 top-1/2 -translate-y-1/4'>
             <div className='relative w-full'>
               <Image src='/images/svg/conclude/callout-frame.svg' alt='' width={12} height={12} style={{width: '80%', margin: '0 auto'}}/>
-              <p className='absolute -translate-x-1/2 left-1/2 top-1/2 -translate-y-1/2 italic text-white text-center' style={{width: '70%', margin: '0 auto'}}>Thanks for your wish, I&#39;ll let you know if it is granted! But in the meantime, here&#39;s a little somethin&#39; Fly just to keep the vibe going.</p>
+              <p className='absolute italic text-center text-white -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2' style={{width: '70%', margin: '0 auto'}}>Thanks for your wish, I&#39;ll let you know if it is granted! But in the meantime, here&#39;s a little somethin&#39; Fly just to keep the vibe going.</p>
             </div>
           </div>
         )}
 
         {currTime >= 5.8 && currTime <= 10.7 && userGift && (
           <div className='absolute top-24 right-8'>
-            <Image src={userGift || tempGiftBucket.cash} width={120} height={80} alt='' className='' />
+            <Image src={userGift || ""} width={120} height={80} alt='' className='' />
           </div>
         )}
 
         {currTime > 10.7 && currTime <= 16.5 && (
-          <div className='absolute -translate-x-1/2 left-1/2 top-1/2 -translate-y-1/4 w-full'>
+          <div className='absolute w-full -translate-x-1/2 left-1/2 top-1/2 -translate-y-1/4'>
             <div className='relative w-full'>
               <Image src='/images/svg/conclude/callout-frame.svg' alt='' width={12} height={12} style={{width: '80%', margin: '0 auto'}}/>
-              <p className='absolute -translate-x-1/2 left-1/2 top-1/2 -translate-y-1/2 italic text-white text-center' style={{width: '70%', margin: '0 auto'}}>And if you have another Flying Wish, get another Flying Fish and enter again!</p>
+              <p className='absolute italic text-center text-white -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2' style={{width: '70%', margin: '0 auto'}}>And if you have another Flying Wish, get another Flying Fish and enter again!</p>
             </div>
           </div>
         )}
         {currTime > 16.5 && currTime <= 19 && (
-          <div className='absolute -translate-x-1/2 left-1/2 top-1/2 -translate-y-1/4 w-full'>
+          <div className='absolute w-full -translate-x-1/2 left-1/2 top-1/2 -translate-y-1/4'>
             <Image src='/images/svg/conclude/callout-fly.svg' alt='' width={12} height={12} style={{width: '80%', margin: '0 auto'}}/>
           </div>
         )}
