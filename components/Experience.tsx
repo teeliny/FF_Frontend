@@ -13,6 +13,7 @@ export const Experience = () => {
   const [currSlide, setCurrSlide] = useState<string | null>(null);
   const [submitWishModal, setSubmitWishModal] = useState(false);
   const [realityMode, setRealityMode] = useState(true);
+  const [showGift, setShowGift] = useState(false);
 
   const slideChangeHandler = (id: string) => {
     setCurrSlide(id);
@@ -38,10 +39,19 @@ export const Experience = () => {
 
   useEffect(() => {
     window.addEventListener('message', (event) => {
-      const arBaseUrl = process.env.NEXT_PUBLIC_AR_BASE_URL || localArUrl;;
+      const arBaseUrl = process.env.NEXT_PUBLIC_AR_BASE_URL || localArUrl;
+      console.log(event);
       if (event.origin !== arBaseUrl) return;
       if (event.data === 'showForm') {
         setRealityMode(false);
+        return;
+      }
+      if (event.data === 'showGift') {
+        setShowGift(true);
+        return;
+      }
+      if (event.data === 'hideGift') {
+        setShowGift(false);
         return;
       }
       if (event.data === 'dialogueEnd') {

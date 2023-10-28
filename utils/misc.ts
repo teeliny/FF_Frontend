@@ -8,7 +8,7 @@ export const countryGroup = {
 export const wishList = [
   { id: '1', name: 'Beach', description: 'Fly me to the beach, water baby!', img: '/images/png/beach.png' },
   { id: '2', name: 'Adventure', description: 'Fly me to adventure. I feel the need for speed!', img: '/images/png/adventure.png' },
-  { id: '3', name: 'Height', description: "Fly me to the high life, I'm not afraid of heights!", img: '/images/png/high.png' },
+  { id: '3', name: 'HighLife', description: "Fly me to the high life, I'm not afraid of heights!", img: '/images/png/high.png' },
   { id: '4', name: 'Party', description: "Fly me to the party vibes, let's go!", img: '/images/png/party.png' },
 ];
 
