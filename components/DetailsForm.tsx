@@ -96,17 +96,18 @@ export const DetailsForm: FC<IDetailsForm> = ({ wish_id, close, experienceFrame 
 
         // delete next line once the backend is up and uncomment next block
         window.top.localStorage.setItem('wishId', wish.id);
-        sendMessageToIframe(promoCode, payload.gift);
-        close?.();
         // router.push('/stream-demo');
-        // const response = await axios.post(`${apiUrl}/verify/addUser`, payload);
-        // if (response.data?.isSuccess) {
-        //   // console.log(response.data.isSuccess, 'form submitted successfully');
-        //   router.push('/stream');
-        // }
+        console.log('Now calling the backend api')
+        const response = await axios.post(`${apiUrl}/verify/addUser`, payload);
+        if (response.data?.isSuccess) {
+          console.log(response.data.isSuccess, 'form submitted successfully');
+          sendMessageToIframe(promoCode, payload.gift);
+          close?.();
+          // router.push('/stream');
+        }
       }
     } catch (error) {
-      console.log(error, ">>>>>>>>>>>>>>>>>>>>>");
+      console.log(error);
       setErrMsg('Something went wrong!!!')
     } finally {
       setLoading(false);
