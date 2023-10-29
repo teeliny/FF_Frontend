@@ -6,17 +6,17 @@ export const countryGroup = {
 };
 
 export const wishList = [
-  { id: '1', name: 'Beach', description: 'Fly me to the beach, water baby!', img: '/images/png/beach-water.jpg' },
-  { id: '2', name: 'Adventure', description: 'Fly me to adventure. I feel the need for speed!', img: '/images/svg/need-for-speed.svg' },
-  { id: '3', name: 'Height', description: "Fly me to the high life, I'm not afraid of heights!", img: '/images/svg/afraid-height.svg' },
-  { id: '4', name: 'Party', description: "Fly me to the party vibes, let's go!", img: '/images/svg/party-vibes.svg' },
+  { id: '1', name: 'Beach', description: 'Fly me to the beach, water baby!', img: '/images/png/beach.png' },
+  { id: '2', name: 'Adventure', description: 'Fly me to adventure. I feel the need for speed!', img: '/images/png/adventure.png' },
+  { id: '3', name: 'HighLife', description: "Fly me to the high life, I'm not afraid of heights!", img: '/images/png/high.png' },
+  { id: '4', name: 'Party', description: "Fly me to the party vibes, let's go!", img: '/images/png/party.png' },
 ];
 
 export const realityList = [
-  { id: '1', description: 'Fly me to the beach, water baby!', img: '/images/svg/swipe/beach.svg' },
-  { id: '2', description: 'Fly me to adventure. I feel the need for speed!', img: '/images/svg/swipe/adventure.svg' },
-  { id: '3', description: "Fly me to the high life, I'm not afraid of heights!", img: '/images/svg/swipe/high.svg' },
-  { id: '4', description: "Fly me to the party vibes, let's go!", img: '/images/svg/swipe/party.svg' },
+  { id: '1', description: 'Fly me to the beach, water baby!', img: '/images/png/swipe/beach.svg' },
+  { id: '2', description: 'Fly me to adventure. I feel the need for speed!', img: '/images/png/swipe/adventure.svg' },
+  { id: '3', description: "Fly me to the high life, I'm not afraid of heights!", img: '/images/png/swipe/high.svg' },
+  { id: '4', description: "Fly me to the party vibes, let's go!", img: '/images/png/swipe/party.svg' },
 ];
 
 export const gateCheck = (path: string, value: string | null): boolean => {
