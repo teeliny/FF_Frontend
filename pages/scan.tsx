@@ -16,9 +16,9 @@ const ScanPage = () => {
           {showReady && (
             <div className='px-5 pt-4 m-auto' style={{ backgroundColor: '#0A3085', width: '90%' }}>
               <p className='mb-4 text-2xl font-semibold leading-normal text-center text-white'>Get ready to hold your bottle to camera and scan the label</p>
-              <p className='flex flex-col mb-10 text-sm font-semibold leading-normal text-center text-white'>
-                <span className='w-fit'>NOTE:</span>
-                <span className='text-justify'>You need to have good network connection to really experience the AR experience, slow network will affect your overall experience</span>
+              <p className='flex flex-col mb-10 text-sm font-semibold leading-normal text-center text-yellow-300'>
+                <span className='italic font-bold text-center'>NOTE:</span>
+                <span className='italic font-medium text-center'>You need to have a good network connection to have a good AR Experience. A slow network connection will affect your overall experience</span>
               </p>
               <Image className='w-full ml-5' style={{height: '50vh'}} src='/images/svg/scan-illustration.svg' alt='' width={100} height={10} />
               <div className='flex w-full -mt-4'>

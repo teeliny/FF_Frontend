@@ -88,7 +88,7 @@ export const DetailsForm: FC<IDetailsForm> = ({ wish_id, close, experienceFrame 
       if (retrievePossibleGift.data.success) {
         if (retrievePossibleGift.data.message) {
           window.top.localStorage.setItem('gift', retrievePossibleGift.data.message['Prize Name']);
-          payload.gift = retrievePossibleGift.data.prize;
+          payload.gift = retrievePossibleGift.data.prize || null;
         }
 
         window.top.localStorage.setItem('wishId', wish.id);
