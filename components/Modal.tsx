@@ -1,5 +1,4 @@
 import { FC } from "react";
-// import Image from "next/image";
 import { FaArrowAltCircleLeft } from "react-icons/fa";
 
 interface IModal {
@@ -14,7 +13,6 @@ export const Modal: FC<IModal> = ({ children, close, title }) => {
       <div className='relative px-6 background' style={{ backgroundImage: "url('/images/png/background.png')", opacity: "0.95" }}>
         {close && (
           <button style={{justifyContent: 'flex-start', paddingTop: '2rem', paddingBottom: '0.5rem'}} className='flex items-center w-full cursor-pointer' onClick={close}>
-            {/* <Image className='w-fit' src='/images/svg/close.svg' alt='' width={32} height={32} /> */}
             <FaArrowAltCircleLeft color="#fff" size={20} />
           </button>
         )}

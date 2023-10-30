@@ -14,6 +14,7 @@ export const Experience = () => {
   const [submitWishModal, setSubmitWishModal] = useState(false);
   const [realityMode, setRealityMode] = useState(true);
   const [showGift, setShowGift] = useState(false);
+  const [currGift, setCurrGift] = useState<null | string>(null);
 
   const slideChangeHandler = (id: string) => {
     setCurrSlide(id);
@@ -23,6 +24,8 @@ export const Experience = () => {
   const backToReality = () => {
     setSubmitWishModal(false);
     setRealityMode(true);
+    const gift = window.top.localStorage.getItem('gift') || 'R15 Airtime';
+    setCurrGift(gift);
   }
   
   const submitWishHandler = (e: MouseEvent) => {
@@ -54,6 +57,9 @@ export const Experience = () => {
       }
       if (event.data === 'dialogueEnd') {
         setRealityMode(true);
+        localStorage.removeItem('wishId');
+        localStorage.removeItem('promo');
+        localStorage.removeItem('gift');
         router.push('/landing');
       }
     });
@@ -86,10 +92,7 @@ export const Experience = () => {
       )}
 
       <div className={`w-full relative ${launch ? 'h-full visible' : 'h-0 invisible overflow-hidden'}`}>
-        <div 
-          className='reality-background' 
-          // style={{background: '#000000'}}
-        >
+        <div className='reality-background'>
           <div className='w-full'>
             <iframe
               ref={frameRef}
@@ -132,9 +135,9 @@ export const Experience = () => {
           </Modal>
         )}
 
-        {showGift && (
+        {showGift && currGift && (
           <div className='absolute top-24 right-8'>
-            <Image src={tempGiftBucket['R1 000 cash prize']} width={120} height={80} alt='' className='' />
+            <Image src={tempGiftBucket[currGift]} width={120} height={80} alt='' className='' />
             {/* <Image src={userGift || tempGiftBucket.cash} width={120} height={80} alt='' className='' /> */}
           </div>
         )}

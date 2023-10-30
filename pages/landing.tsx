@@ -1,9 +1,8 @@
 'use client';
-import { MouseEvent, useEffect, useState } from 'react';
+import { MouseEvent, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Layout, Loader } from '../components';
-import { tempGiftBucket, tempValidCodes } from '../utils';
 import Link from 'next/link';
 import axios from 'axios';
 
@@ -15,12 +14,9 @@ const LandingPage = () => {
   const [promoCode, setPromoCode] = useState('');
   const [codeError, setCodeError] = useState<null | boolean>(null);
   const [errMsg, setErrMsg] = useState<null | string>(null);
-  const [usedCode, setUsedCode] = useState<boolean>(null);
-  const [validCodes, setValidCodes] = useState([]);
 
   const handleCodeChange = (e: any) => {
     if (codeError) {
-      setUsedCode(false);
       setCodeError(null);
       setErrMsg(null);
     }
@@ -51,52 +47,6 @@ const LandingPage = () => {
       setLoading(false);
     }
   }
-
-  const handleSubmit = (e: MouseEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setTimeout(() => {
-      const isValid = validCodes.includes(promoCode);
-      const isInList = tempValidCodes.includes(promoCode);
-      if (!isValid) {
-        setCodeError(true);
-        if (isInList) {
-          setUsedCode(true);
-        }
-        setLoading(false);
-        return;
-      }
-      const remainingCodes = [...validCodes];
-      remainingCodes.splice(validCodes.indexOf(promoCode), 1);
-      setValidCodes(remainingCodes);
-      window.top.localStorage.setItem('validCodes', JSON.stringify(remainingCodes));
-      const giftList = Object.keys(tempGiftBucket);
-      const randomIndex = Math.floor(Math.random() * giftList.length + 3)
-      const gift = randomIndex < giftList.length ? giftList[randomIndex] : null;
-      window.top.localStorage.setItem('promo', promoCode);
-      console.log(promoCode);
-      if (gift) window.top.localStorage.setItem('gift', gift);
-      setLoading(false);
-      router.push('/scan');
-      
-    }, 1000);
-  };
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const codes = window.top.localStorage.getItem('validCodes');
-      if (!codes) {
-        window.top.localStorage.setItem('validCodes', JSON.stringify(tempValidCodes));
-        setValidCodes(tempValidCodes);
-      }
-      const parsedCodes = JSON.parse(codes);
-      if (parsedCodes?.length > 5) setValidCodes(JSON.parse(codes));
-      else {
-        window.top.localStorage.setItem('validCodes', JSON.stringify(tempValidCodes))
-        setValidCodes(tempValidCodes);
-      }
-    } else setValidCodes(tempValidCodes);
-  }, []);
 
   return (
     <Layout title="Marketing AR - Landing">
