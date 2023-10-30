@@ -34,9 +34,9 @@
   @apply relative w-full min-h-screen overflow-x-hidden overflow-y-scroll;
 }
 
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
   display: none;
-}
+} */
 
 /* Arrow animation */
 .arrow {
