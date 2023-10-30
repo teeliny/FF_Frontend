@@ -77,9 +77,6 @@ export const Experience = () => {
       if (scrollLeft < scrollGap) {
         const nextValue = (Math.floor(scrollLeft / 200) + 1) * 200;
         realityRef.current.scrollLeft = nextValue > 400 ? scrollGap : nextValue;
-
-        // if (nextValue > 400) setDisableNav({prev: false, next: true})
-        // else setDisableNav({prev: false, next: false});
       }
     }
   }
@@ -89,26 +86,25 @@ export const Experience = () => {
       if (scrollLeft > 0) {
         const nextValue = (Math.ceil(scrollLeft / 200) - 1) * 200;
         realityRef.current.scrollLeft = nextValue < 200 ? 0 : nextValue;
-        
-        // if (nextValue < 200) setDisableNav({prev: true, next: false})
-        // else setDisableNav({prev: false, next: false});
       }
     }
   }
 
   useLayoutEffect(() => {
     console.log('before scroll');
-    realityRef.current?.addEventListener("scroll", () => {
-      console.log('inside scroll');
-      const {scrollWidth, scrollLeft, clientWidth}  = realityRef.current || {scrollWidth: 0, scrollLeft: 0, clientWidth: 0};
-      const scroll = scrollWidth - scrollLeft - clientWidth;
-      console.log({scrollWidth, scrollLeft, clientWidth});
-      setDisableNav({
-        prev: scroll === 800 - window.innerWidth,
-        next: scroll === 0
+    if (realityRef.current) {
+      realityRef.current?.addEventListener("scroll", () => {
+        console.log('inside scroll');
+        const {scrollWidth, scrollLeft, clientWidth}  = realityRef.current || {scrollWidth: 0, scrollLeft: 0, clientWidth: 0};
+        const scroll = scrollWidth - scrollLeft - clientWidth;
+        console.log({scrollWidth, scrollLeft, clientWidth});
+        setDisableNav({
+          prev: scroll === 800 - window.innerWidth,
+          next: scroll === 0
+        });
       });
-    });
-  }, []);
+    }
+  }, [realityRef.current]);
 
   return (
     <div>
