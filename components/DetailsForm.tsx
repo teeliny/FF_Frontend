@@ -8,14 +8,12 @@ import {
   defaultState, 
   animatedComponents, 
   countryStyles, 
-  wishStyles, 
   ICountryOption, 
   wishList,
   localArUrl
 } from '../utils';
 import { Radio, RadioGroup } from 'react-radio-group';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import Loader from './Loader';
 
 const CountryFlag = ({code}: {code: string}) => (
@@ -32,7 +30,6 @@ interface IDetailsForm {
 }
 
 export const DetailsForm: FC<IDetailsForm> = ({ wish_id, close, experienceFrame }) => {
-  const router = useRouter();
   const sabaAuthKey = process.env.NEXT_PUBLIC_SABA_AUTH_KEY ?? '';
   const sabaApi = process.env.NEXT_PUBLIC_SABA_API ?? '';
   const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? '';
@@ -69,8 +66,8 @@ export const DetailsForm: FC<IDetailsForm> = ({ wish_id, close, experienceFrame 
       const { phone_number, country, first_name, last_name, valid_passport } = formState;
       const selectedCountry = Object.values(countryGroup).find((item) => item.name === country);
       let msisdn = phone_number;
-      if (phone_number[0] === '+') msisdn = phone_number.slice(1);
-      else if (phone_number[0] === '0') msisdn = `${selectedCountry.dialCode}${phone_number.slice(1)}`;
+      if (phone_number.startsWith('+')) msisdn = phone_number.slice(1);
+      else if (phone_number.startsWith('0')) msisdn = `${selectedCountry.dialCode}${phone_number.slice(1)}`;
 
       const payload = {
         firstname: first_name,
@@ -94,16 +91,13 @@ export const DetailsForm: FC<IDetailsForm> = ({ wish_id, close, experienceFrame 
           payload.gift = retrievePossibleGift.data.prize;
         }
 
-        // delete next line once the backend is up and uncomment next block
         window.top.localStorage.setItem('wishId', wish.id);
-        // router.push('/stream-demo');
         console.log('Now calling the backend api')
         const response = await axios.post(`${apiUrl}/verify/addUser`, payload);
         if (response.data?.isSuccess) {
           console.log(response.data.isSuccess, 'form submitted successfully');
-          sendMessageToIframe(promoCode, payload.gift);
+          sendMessageToIframe(payload.gift);
           close?.();
-          // router.push('/stream');
         }
       }
     } catch (error) {
@@ -114,40 +108,9 @@ export const DetailsForm: FC<IDetailsForm> = ({ wish_id, close, experienceFrame 
     }
   }
 
-  const submitHandler = async (e: MouseEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setTimeout(() => {
-      const promoCode = window.top.localStorage.getItem('promo') || '';
-      const giftWon = window.top.localStorage.getItem('gift');
-      window.top.localStorage.setItem('wishId', wish.id);
-      const payload = {
-        firstname: formState.first_name,
-        lastname: formState.last_name,
-        phone: formState.phone_number,
-        country: formState.country,
-        passport: formState.valid_passport,
-        wish: wish.description,
-        code: promoCode,
-        gift: giftWon,
-      }
-      console.log(payload);
-      setLoading(false);
-      sendMessageToIframe(promoCode, giftWon);
-      close?.();
-      // router.push('/stream-demo');
-      // const response = await axios.post(`${apiUrl}/verify/addUser`, payload);
-      // if (response.status === 200) {
-      //   console.log(response.data.isSuccess, 'form submitted successfully');
-      // }
-    }, 1000);
-  };
-
-  const sendMessageToIframe = (promoCode: string, giftWon: string | null) => {
+  const sendMessageToIframe = (giftWon: string | null) => {
     if (experienceFrame) {
       const message = giftWon?.length ? `${wish.name.toLowerCase()}Win` : `${wish.name.toLowerCase()}Lose`;
-      console.log({message, promoCode, giftWon});
-      // const message = {wish: wish.name, promoCode, gift: (giftWon && giftWon.length ? true : false)};
       const targetOrigin = process.env.NEXT_PUBLIC_AR_BASE_URL || localArUrl;
       experienceFrame.contentWindow.postMessage(message, targetOrigin);
     }
