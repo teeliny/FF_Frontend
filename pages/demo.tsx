@@ -41,7 +41,9 @@ export const Experience = () => {
   }
 
   useEffect(() => {
+    console.log('before scroll');
     realityRef.current?.addEventListener("scroll", () => {
+      console.log('inside scroll');
       const {scrollWidth, scrollLeft, clientWidth}  = realityRef.current || {scrollWidth: 0, scrollLeft: 0, clientWidth: 0};
       const scroll = scrollWidth - scrollLeft - clientWidth;
       console.log({scrollWidth, scrollLeft, clientWidth});

@@ -1,5 +1,5 @@
 'use client';
-import { Fragment, MouseEvent, useState, useEffect, useRef } from 'react';
+import { Fragment, MouseEvent, useState, useEffect, useRef, useLayoutEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { localArUrl, realityList, tempGiftBucket } from '../utils';
@@ -96,8 +96,10 @@ export const Experience = () => {
     }
   }
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    console.log('before scroll');
     realityRef.current?.addEventListener("scroll", () => {
+      console.log('inside scroll');
       const {scrollWidth, scrollLeft, clientWidth}  = realityRef.current || {scrollWidth: 0, scrollLeft: 0, clientWidth: 0};
       const scroll = scrollWidth - scrollLeft - clientWidth;
       console.log({scrollWidth, scrollLeft, clientWidth});
