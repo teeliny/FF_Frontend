@@ -1,7 +1,7 @@
 import { FC, Fragment, MouseEvent, useState, useEffect } from 'react';
 import Image from 'next/image';
 import { DetailsForm, Layout, Modal } from '../components';
-import { wishList } from '../utils';
+import { realityList } from '../utils';
 
 export const WishSelection: FC = () => {
   const [wishId, setMyWishId] = useState<null | string>(null);
@@ -35,7 +35,7 @@ export const WishSelection: FC = () => {
             </div>
 
             <div className='flex flex-col gap-4'>
-              {wishList.map((option) => (
+              {realityList.map((option) => (
                 <div 
                   key={option.id} 
                   style={{border: wishId === option.id ? '2px solid #fde047' : 'none', backgroundColor: 'rgba(10, 48, 133, 0.50)', backdropFilter: 'blur(5px)'}} 

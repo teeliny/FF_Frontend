@@ -9,7 +9,7 @@ import {
   animatedComponents, 
   countryStyles, 
   ICountryOption, 
-  wishList,
+  realityList,
   localArUrl
 } from '../utils';
 import { Radio, RadioGroup } from 'react-radio-group';
@@ -40,7 +40,7 @@ export const DetailsForm: FC<IDetailsForm> = ({ wish_id, close, experienceFrame 
   const [loading, setLoading] = useState(false);
   const [errMsg, setErrMsg] = useState<null | string>(null);
 
-  const wish = useMemo(() => wishList.find(item => item.id === wish_id), [wishList, wish_id]);
+  const wish = useMemo(() => realityList.find(item => item.id === wish_id), [realityList, wish_id]);
 
   const countryOptions: Options<ICountryOption> = [
     { value: 'South Africa', label: <CountryFlag code='za' /> },
@@ -88,7 +88,7 @@ export const DetailsForm: FC<IDetailsForm> = ({ wish_id, close, experienceFrame 
       if (retrievePossibleGift.data.success) {
         if (retrievePossibleGift.data.message) {
           window.top.localStorage.setItem('gift', retrievePossibleGift.data.message['Prize Name']);
-          payload.gift = retrievePossibleGift.data.prize;
+          payload.gift = retrievePossibleGift.data.prize || null;
         }
 
         window.top.localStorage.setItem('wishId', wish.id);
