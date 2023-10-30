@@ -90,21 +90,17 @@ export const Experience = () => {
     }
   }
 
-  useLayoutEffect(() => {
-    console.log('before scroll');
-    if (realityRef.current) {
-      realityRef.current?.addEventListener("scroll", () => {
-        console.log('inside scroll');
-        const {scrollWidth, scrollLeft, clientWidth}  = realityRef.current || {scrollWidth: 0, scrollLeft: 0, clientWidth: 0};
-        const scroll = scrollWidth - scrollLeft - clientWidth;
-        console.log({scrollWidth, scrollLeft, clientWidth});
-        setDisableNav({
-          prev: scroll === 800 - window.innerWidth,
-          next: scroll === 0
-        });
+  useEffect(() => {
+    realityRef.current?.addEventListener("scroll", () => {
+      const {scrollWidth, scrollLeft, clientWidth}  = realityRef.current || {scrollWidth: 0, scrollLeft: 0, clientWidth: 0};
+      const scroll = scrollWidth - scrollLeft - clientWidth;
+      console.log({scrollWidth, scrollLeft, clientWidth});
+      setDisableNav({
+        prev: scroll === 800 - window.innerWidth,
+        next: scroll === 0
       });
-    }
-  }, [realityRef.current]);
+    }, true);
+  }, []);
 
   return (
     <div>
