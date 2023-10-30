@@ -31,11 +31,9 @@ export const Experience = () => {
     console.log({ currSlide })
   };
 
-  useEffect(() => {
-    setTimeout(() => {
-      setLaunch(true);
-    }, 4000);
-  }, []);
+  const handleLaunch = () => {
+    setLaunch(true);
+  }
 
   useEffect(() => {
     window.addEventListener('message', (event) => {
@@ -65,7 +63,7 @@ export const Experience = () => {
     <div>
       {!launch && (
         <div className='w-full h-full px-5' style={{ paddingTop: '1.5rem'}}>
-          <p className='px-12 mb-10 text-xl font-semibold leading-normal text-center text-white'>Move the bottle into position, swipe to rub the label & release your genie!</p>
+          <p className='px-12 mb-10 text-xl font-semibold leading-normal text-center text-white'>Move the bottle into position, scan the label & release your genie!</p>
           <div style={{width: '100%', height: '60%', position: 'relative'}}>
             <Image 
               className='mx-auto' 
@@ -74,6 +72,15 @@ export const Experience = () => {
               layout='fill'
               objectFit='contain'
             />  
+          </div>
+          <div className='flex w-full'>
+            <button 
+              className='px-6 py-3 mx-auto mt-8 mb-4 text-2xl uppercase bg-yellow-300 w-fit'
+              style={{ color: '#0A3085' }} 
+              onClick={handleLaunch}
+            >
+              Start Scan
+            </button> 
           </div>
         </div>
       )}
