@@ -99,7 +99,7 @@ export const Experience = () => {
         prev: scroll === 800 - window.innerWidth,
         next: scroll === 0
       });
-    }, true);
+    });
   }, []);
 
   return (
