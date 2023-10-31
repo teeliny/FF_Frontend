@@ -1,5 +1,5 @@
 'use client';
-import { Fragment, MouseEvent, useState, useEffect, useRef, useLayoutEffect } from 'react';
+import { Fragment, MouseEvent, useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { localArUrl, realityList, tempGiftBucket } from '../utils';
@@ -72,12 +72,11 @@ export const Experience = () => {
     realityRef.current?.addEventListener("scroll", () => {
       const {scrollWidth, scrollLeft, clientWidth}  = realityRef.current || {scrollWidth: 0, scrollLeft: 0, clientWidth: 0};
       const scroll = scrollWidth - scrollLeft - clientWidth;
-      console.log({scrollWidth, scrollLeft, clientWidth});
       setDisableNav({
         prev: scroll === 800 - window.innerWidth,
         next: scroll === 0
       });
-    }); 
+    });
   }, []);
 
   const nextBtnHandler = () => {
@@ -99,6 +98,18 @@ export const Experience = () => {
       }
     }
   }
+
+  useEffect(() => {
+    realityRef.current?.addEventListener("scroll", () => {
+      const {scrollWidth, scrollLeft, clientWidth}  = realityRef.current || {scrollWidth: 0, scrollLeft: 0, clientWidth: 0};
+      const scroll = scrollWidth - scrollLeft - clientWidth;
+      console.log({scrollWidth, scrollLeft, clientWidth});
+      setDisableNav({
+        prev: scroll === 800 - window.innerWidth,
+        next: scroll === 0
+      });
+    });
+  }, []);
 
   return (
     <div>
@@ -146,7 +157,7 @@ export const Experience = () => {
                 <div 
                   ref={realityRef} 
                   className='w-full' 
-                  style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 200px)', overflow: 'scroll',  }}
+                  style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 200px)', overflow: 'scroll' }}
                 >
                   {realityList.map((wish) => (
                     <div 
@@ -188,7 +199,6 @@ export const Experience = () => {
         {showGift && currGift && (
           <div className='absolute top-24 right-8'>
             <Image src={tempGiftBucket[currGift]} width={120} height={80} alt='' className='' />
-            {/* <Image src={userGift || tempGiftBucket.cash} width={120} height={80} alt='' className='' /> */}
           </div>
         )}
       </div>
